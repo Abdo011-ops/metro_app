@@ -3,593 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معاك | دليل مترو القاهرة</title>
-    <meta name="description" content="دليل خريطة مترو القاهرة الذكي. اعرف أقرب محطة مترو ليك، احسب عدد المحطات، وسعر التذكرة.">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>دليلك | المنصة الشاملة للمواصلات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --line1: #0056b3;
-            --line2: #dc3545;
-            --line3: #28a745;
-            --multi: #8b5cf6;
             --bg: #0f172a;
             --card: #1e293b;
             --text: #f1f5f9;
-            --muted: #94a3b8;
-            --border: #334155;
             --primary: #6366f1;
-            --warning: #f59e0b;
-            --price: #f59e0b;
+            --hover: #8b5cf6;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, var(--bg) 0%, #1e293b 100%);
             min-height: 100vh;
-            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: var(--text);
+            padding: 20px;
         }
 
-        .container { max-width: 800px; margin: auto; }
-
-        .header { text-align: center; margin-bottom: 40px; }
-
-        .logo { font-size: 60px; margin-bottom: 15px; animation: float 3s ease-in-out infinite; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
         }
 
-        .title {
-            font-size: 40px;
+        .header-title {
+            font-size: 45px;
             font-weight: 900;
-            margin-bottom: 5px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--hover));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .subtitle { font-size: 20px; font-weight: 700; color: var(--text); }
-
-        .step-container {
-            background: var(--card);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .step-title {
+        .header-subtitle {
             font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-bottom: 50px;
+            color: #94a3b8;
         }
 
-        .step-number {
-            width: 35px;
-            height: 35px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: white;
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
         }
 
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text); }
-
-        select {
-            width: 100%;
-            padding: 15px;
-            background: var(--bg);
-            border: 2px solid var(--border);
-            border-radius: 12px;
+        .service-card {
+            background: var(--card);
+            border: 2px solid #334155;
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-decoration: none;
             color: var(--text);
-            font-family: 'Cairo', sans-serif;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        select:focus { outline: none; border-color: var(--primary); }
-        select option { background: var(--card); color: var(--text); padding: 10px; }
-
-        .btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
-        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); }
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+        }
 
-        /* التنسيق الجديد لزر الموقع الجغرافي */
-        .unknown-location {
-            text-align: center;
-            margin-top: 15px;
-            color: var(--primary);
+        .service-icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+
+        .service-title {
+            font-size: 28px;
             font-weight: 700;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        .unknown-location:hover {
-            color: var(--warning);
-            text-decoration: underline;
+            margin-bottom: 10px;
         }
 
-        .result-container { display: none; }
-        .result-card { background: var(--card); border-radius: 20px; padding: 30px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .route-summary { text-align: center; margin-bottom: 30px; padding: 20px; background: var(--bg); border-radius: 15px; }
-        .route-from-to { font-size: 24px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 15px; }
-        .route-stats { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .route-stat { text-align: center; padding: 15px 20px; background: var(--card); border-radius: 12px; min-width: 110px; }
-        .route-stat-value { font-size: 28px; font-weight: 800; color: var(--primary); }
-        .route-stat-label { font-size: 12px; color: var(--muted); margin-top: 5px; }
-        .route-stat.time .route-stat-value { color: var(--warning); }
-        .route-stat.price .route-stat-value { color: var(--price); }
-        .stations-list { margin: 20px 0; padding: 20px; background: var(--bg); border-radius: 15px; }
-        .stations-list-title { font-weight: 700; margin-bottom: 15px; color: var(--primary); }
-        .stations-text { line-height: 2.5; font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-        .station-highlight { color: var(--text); font-weight: 700; background: var(--card); padding: 5px 10px; border-radius: 8px; border: 1px solid var(--border); }
-        .transfer-highlight { color: var(--multi); font-weight: 800; background: rgba(139, 92, 246, 0.1); padding: 5px 10px; border-radius: 8px; border: 2px solid var(--multi); }
-        .arrow-separator { color: var(--muted); font-size: 12px; }
-        .journey-path { position: relative; padding-right: 40px; margin-top: 20px; }
-        .journey-path::before { content: ''; position: absolute; right: 15px; top: 0; bottom: 0; width: 3px; background: var(--border); }
-        .station-stop { position: relative; margin-bottom: 15px; padding: 15px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
-        .station-stop::before { content: ''; position: absolute; right: -32px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background: var(--primary); border-radius: 50%; border: 3px solid var(--card); }
-        .station-stop.transfer::before { background: var(--multi); }
-        .station-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .station-name { font-weight: 700; font-size: 16px; }
-        .station-time { font-size: 12px; color: var(--muted); font-weight: 600; }
-        .station-line-badge { display: inline-block; padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: 600; color: white; margin-top: 5px; }
-        .badge-line1 { background: var(--line1); }
-        .badge-line2 { background: var(--line2); }
-        .badge-line3 { background: var(--line3); }
-        .transfer-box { background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)); border: 3px solid var(--multi); border-radius: 15px; padding: 20px; margin: 25px 0; text-align: center; }
-        .transfer-box .transfer-icon { font-size: 40px; color: var(--multi); margin-bottom: 10px; }
-        .transfer-box .transfer-title { font-size: 18px; font-weight: 800; color: var(--multi); margin-bottom: 15px; }
-        .transfer-box .transfer-station-name { font-size: 28px; font-weight: 900; color: white; margin-bottom: 10px; background: rgba(139, 92, 246, 0.2); padding: 12px; border-radius: 12px; }
-        .transfer-box .transfer-info { font-size: 15px; color: var(--text); margin-bottom: 15px; font-weight: 600; }
-        .transfer-box .transfer-lines { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-        .transfer-box .transfer-line-badge { padding: 8px 18px; border-radius: 20px; font-weight: 700; font-size: 14px; color: white; }
-        .transfer-box .transfer-arrow { color: var(--multi); font-size: 24px; }
-        .transfer-box .transfer-wait-time { display: inline-block; margin-top: 10px; padding: 10px 20px; background: rgba(245, 158, 11, 0.1); border: 2px solid var(--warning); border-radius: 10px; color: var(--warning); font-weight: 700; font-size: 15px; }
+        .service-desc {
+            font-size: 15px;
+            color: #94a3b8;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="header">
-            <div class="logo">🚇</div>
-            <h1 class="title">معاك</h1>
-            <p class="subtitle">معاك من أول محطة لآخر محطة</p>
-        </div>
+        <h1 class="header-title">معاك في أي طريق</h1>
+        <p class="header-subtitle">اختار الخدمة اللي بتدور عليها وهنوصلك في أسرع وقت</p>
 
-        <div class="step-container" id="step1">
-            <div class="step-title">
-                <div class="step-number">1</div>
-                اختار خط البداية
-            </div>
-            
-            <div class="form-group">
-                <label><i class="fas fa-subway"></i> اختر الخط</label>
-                <select id="startLine">
-                    <option value="">-- اختر خط البداية --</option>
-                    <option value="line1">🚇 الخط الأول</option>
-                    <option value="line2">🚂 الخط الثاني</option>
-                    <option value="line3">🚃 الخط الثالث</option>
-                </select>
-            </div>
+        <div class="services-grid">
+            <!-- كارت المترو -->
+            <a href="metro.html" class="service-card">
+                <div class="service-icon">🚇</div>
+                <h2 class="service-title">دليل المترو</h2>
+                <p class="service-desc">اعرف محطتك، احسب تذكرتك، وشوف مسارك في خطوط المترو.</p>
+            </a>
 
-            <!-- الجملة السحرية تحت الاختيار -->
-            <div class="unknown-location" onclick="locateNearestStation()" id="locateBtn">
-                🤔 لا أعلم أين أنا.. حدد موقعي تلقائياً
-            </div>
-        </div>
-
-        <div class="step-container" id="step2" style="display: none;">
-            <div class="step-title">
-                <div class="step-number"><i class="fas fa-check"></i></div>
-                اختار محطة البداية
-            </div>
-            <div class="form-group">
-                <label><i class="fas fa-map-marker-alt"></i> اختر المحطة</label>
-                <select id="startStation">
-                    <option value="">-- اختر محطة البداية --</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="step-container" id="step3" style="display: none;">
-            <div class="step-title" id="destinationTitle">
-                <div class="step-number">2</div>
-                اختار خط الوصول
-            </div>
-            <div class="form-group">
-                <label><i class="fas fa-subway"></i> اختر الخط</label>
-                <select id="endLine">
-                    <option value="">-- اختر خط الوصول --</option>
-                    <option value="line1">🚇 الخط الأول</option>
-                    <option value="line2">🚂 الخط الثاني</option>
-                    <option value="line3">🚃 الخط الثالث</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="step-container" id="step4" style="display: none;">
-            <div class="step-title">
-                <div class="step-number"><i class="fas fa-check"></i></div>
-                اختار محطة الوصول
-            </div>
-            <div class="form-group">
-                <label><i class="fas fa-flag-checkered"></i> اختر المحطة</label>
-                <select id="endStation">
-                    <option value="">-- اختر محطة الوصول --</option>
-                </select>
-            </div>
-            <button class="btn btn-primary" onclick="calculateRoute()">
-                <i class="fas fa-route"></i>
-                احسب الرحلة
-            </button>
-        </div>
-
-        <div class="result-container" id="resultContainer">
-            <div class="result-card">
-                <div class="route-summary">
-                    <div class="route-from-to">
-                        <span id="startStationName"></span>
-                        <i class="fas fa-arrow-left arrow-icon"></i>
-                        <span id="endStationName"></span>
-                    </div>
-                    <div class="route-stats">
-                        <div class="route-stat">
-                            <div class="route-stat-value" id="totalStops">0</div>
-                            <div class="route-stat-label">عدد المحطات</div>
-                        </div>
-                        <div class="route-stat">
-                            <div class="route-stat-value" id="totalTransfers">0</div>
-                            <div class="route-stat-label">التبديلات</div>
-                        </div>
-                        <div class="route-stat time">
-                            <div class="route-stat-value" id="totalTime">0</div>
-                            <div class="route-stat-label">دقيقة</div>
-                        </div>
-                        <div class="route-stat price">
-                            <div class="route-stat-value" id="totalPrice">0</div>
-                            <div class="route-stat-label">جنيه</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="stations-list">
-                    <div class="stations-list-title"><i class="fas fa-list"></i> المحطات التي ستمر بها:</div>
-                    <div class="stations-text" id="stationsText"></div>
-                </div>
-                <div class="journey-path" id="journeyPath"></div>
-                <button class="btn btn-primary" onclick="resetJourney()" style="margin-top: 20px;">
-                    <i class="fas fa-redo"></i> رحلة جديدة
-                </button>
-            </div>
+            <!-- كارت المواقف -->
+            <a href="transport.html" class="service-card">
+                <div class="service-icon">🚌</div>
+                <h2 class="service-title">مواصلاتي</h2>
+                <p class="service-desc">دليلك لمعرفة أشهر مواقف السفر لكل محافظات مصر.</p>
+            </a>
         </div>
     </div>
 
-    <script>
-        let transferStations = {};
-        let allStationsCoords = []; 
-        
-        const lines = {
-            line1: { name: "الخط الأول", color: "#0056b3", stations: [] },
-            line2: { name: "الخط الثاني", color: "#dc3545", stations: [] },
-            line3: { name: "الخط الثالث", color: "#28a745", stations: [] }
-        };
-
-        let WAIT_TIME_PER_STATION = 3;
-        let PRICING = [
-            { min: 1, max: 9, price: 10 },
-            { min: 10, max: 16, price: 12 },
-            { min: 17, max: 23, price: 15 },
-            { min: 24, max: 50, price: 20 }
-        ];
-
-        fetch('metro.json')
-            .then(response => response.json())
-            .then(data => { loadData(data); })
-            .catch(error => { console.error('خطأ:', error); });
-
-        function loadData(data) {
-            if (data && data.settings) {
-                if (data.settings.waitTimePerStation) WAIT_TIME_PER_STATION = data.settings.waitTimePerStation;
-                if (data.settings.pricing) {
-                    PRICING = data.settings.pricing.map(p => ({
-                        min: p.minStations, max: p.maxStations, price: p.price
-                    }));
-                }
-            }
-            if (data && data.lines) {
-                for (let lineKey in data.lines) {
-                    let currentLine = data.lines[lineKey]; 
-                    currentLine.stations.forEach(station => {
-                        let name = station.name;
-                        
-                        if (!lines[lineKey].stations.includes(name)) {
-                            lines[lineKey].stations.push(name);
-                        }
-                        
-                        if(station.lat && station.lng) {
-                            allStationsCoords.push({
-                                name: name,
-                                line: lineKey,
-                                lat: station.lat,
-                                lng: station.lng
-                            });
-                        }
-                        
-                        if (station.transfer === true) {
-                            let tLines = station.transferLines;
-                            let tNames = tLines.map(k => data.lines[k].name); 
-                            transferStations[name] = { lines: tLines, names: tNames };
-                        }
-                    });
-                }
-            }
-        }
-
-        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-            var R = 6371; 
-            var dLat = (lat2-lat1) * (Math.PI/180);
-            var dLon = (lon2-lon1) * (Math.PI/180);
-            var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                    Math.cos(lat1 * (Math.PI/180)) * Math.cos(lat2 * (Math.PI/180)) * 
-                    Math.sin(dLon/2) * Math.sin(dLon/2); 
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-            return R * c; 
-        }
-
-        // التحديث الجديد للملء التلقائي والانتقال المباشر للوجهة
-        function locateNearestStation() {
-            const btn = document.getElementById("locateBtn");
-            if (navigator.geolocation) {
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري البحث...';
-                
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    let userLat = position.coords.latitude;
-                    let userLng = position.coords.longitude;
-                    let nearestStation = null;
-                    let minDistance = Infinity;
-
-                    allStationsCoords.forEach(st => {
-                        let d = getDistanceFromLatLonInKm(userLat, userLng, st.lat, st.lng);
-                        if (d < minDistance) {
-                            minDistance = d;
-                            nearestStation = st;
-                        }
-                    });
-
-                    if (nearestStation) {
-                        alert("📍 تم التحديد: أقرب محطة ليك هي " + nearestStation.name);
-                        
-                        // تعبئة البيانات في الخلفية
-                        document.getElementById("startLine").value = nearestStation.line;
-                        populateStationSelect("startStation", nearestStation.line); 
-                        document.getElementById("startStation").value = nearestStation.name;
-                        
-                        // إخفاء أول خطوتين والانتقال للوجهة مباشرة
-                        document.getElementById("step1").style.display = "none";
-                        document.getElementById("step2").style.display = "none";
-                        
-                        document.getElementById("step3").style.display = "block";
-                        // تعديل بسيط عشان يحس إنه الخطوة اللي عليها الدور
-                        document.getElementById("destinationTitle").innerHTML = '<div class="step-number">2</div> اختار خط الوصول (إلى أين؟)';
-                        document.getElementById("step3").scrollIntoView({ behavior: "smooth" });
-                        
-                        btn.innerHTML = '🤔 لا أعلم أين أنا.. حدد موقعي تلقائياً';
-                    }
-                }, function(error) {
-                    alert("⚠️ مش قادرين نحدد مكانك. اتأكد إنك فاتح الـ Location (GPS).");
-                    btn.innerHTML = '🤔 لا أعلم أين أنا.. حدد موقعي تلقائياً';
-                });
-            } else {
-                alert("متصفحك لا يدعم تحديد الموقع.");
-            }
-        }
-
-        function calculatePrice(count) {
-            for (let p of PRICING) { if (count >= p.min && count <= p.max) return p.price; }
-            return 20; 
-        }
-
-        function getStationLines(name) {
-            const result = [];
-            if (lines.line1.stations.includes(name)) result.push("line1");
-            if (lines.line2.stations.includes(name)) result.push("line2");
-            if (lines.line3.stations.includes(name)) result.push("line3");
-            return result;
-        }
-
-        function populateStationSelect(selectId, lineKey) {
-            const select = document.getElementById(selectId);
-            select.innerHTML = '<option value="">-- اختر المحطة --</option>';
-            lines[lineKey].stations.forEach(station => { select.innerHTML += `<option value="${station}">${station}</option>`; });
-        }
-
-        function findRoute(startStation, endStation) {
-            const startLines = getStationLines(startStation);
-            const endLines = getStationLines(endStation);
-            const commonLine = startLines.find(l => endLines.includes(l));
-            
-            if (commonLine) {
-                const stations = lines[commonLine].stations;
-                const si = stations.indexOf(startStation);
-                const ei = stations.indexOf(endStation);
-                if (si !== -1 && ei !== -1) {
-                    const path = [];
-                    const step = si < ei ? 1 : -1;
-                    for (let i = si; i !== ei + step; i += step) {
-                        path.push({ name: stations[i], line: commonLine, isTransfer: transferStations[stations[i]] ? true : false });
-                    }
-                    return { path, transfers: [], lines: [commonLine] };
-                }
-            }
-            
-            let bestRoute = null;
-            for (let transferStation of Object.keys(transferStations)) {
-                const transferLines = transferStations[transferStation].lines;
-                if (!startLines.some(l => transferLines.includes(l)) || !endLines.some(l => transferLines.includes(l))) continue;
-                
-                const firstLine = startLines.find(l => transferLines.includes(l));
-                const secondLine = endLines.find(l => transferLines.includes(l));
-                if (!firstLine || !secondLine || firstLine === secondLine) continue;
-                
-                const firstStations = lines[firstLine].stations;
-                const startIdx = firstStations.indexOf(startStation);
-                const transferIdx = firstStations.indexOf(transferStation);
-                const secondStations = lines[secondLine].stations;
-                const transferIdx2 = secondStations.indexOf(transferStation);
-                const endIdx = secondStations.indexOf(endStation);
-                
-                if (startIdx === -1 || transferIdx === -1 || transferIdx2 === -1 || endIdx === -1) continue;
-                
-                const path = [];
-                const step1 = startIdx < transferIdx ? 1 : -1;
-                for (let i = startIdx; i !== transferIdx + step1; i += step1) {
-                    path.push({ name: firstStations[i], line: firstLine, isTransfer: transferStations[firstStations[i]] ? true : false });
-                }
-                const step2 = transferIdx2 < endIdx ? 1 : -1;
-                for (let i = transferIdx2 + step2; i !== endIdx + step2; i += step2) {
-                    path.push({ name: secondStations[i], line: secondLine, isTransfer: transferStations[secondStations[i]] ? true : false });
-                }
-                
-                const route = { path, transfers: [transferStation], lines: [firstLine, secondLine] };
-                if (!bestRoute || path.length < bestRoute.path.length) bestRoute = route;
-            }
-            return bestRoute;
-        }
-
-        function calculateRoute() {
-            const startStation = document.getElementById("startStation").value;
-            const endStation = document.getElementById("endStation").value;
-            if (!startStation || !endStation) return alert("الرجاء اختيار المحطات");
-            if (startStation === endStation) return alert("المحطتان متطابقتان!");
-            const route = findRoute(startStation, endStation);
-            if (route) displayRoute(route, startStation, endStation);
-            else alert("لا يمكن حساب المسار");
-        }
-
-        function displayRoute(route, startStation, endStation) {
-            document.getElementById("step1").style.display = "none";
-            document.getElementById("step2").style.display = "none";
-            document.getElementById("step3").style.display = "none";
-            document.getElementById("step4").style.display = "none";
-            document.getElementById("resultContainer").style.display = "block";
-            document.getElementById("startStationName").textContent = startStation;
-            document.getElementById("endStationName").textContent = endStation;
-            
-            const totalStops = route.path.length - 1;
-            document.getElementById("totalStops").textContent = route.path.length;
-            document.getElementById("totalTransfers").textContent = route.transfers.length;
-            document.getElementById("totalTime").textContent = totalStops * WAIT_TIME_PER_STATION;
-            document.getElementById("totalPrice").textContent = calculatePrice(route.path.length);
-            
-            displayStationsText(route.path);
-            displayJourneyPath(route);
-        }
-
-        function displayStationsText(path) {
-            let html = "";
-            path.forEach((station, index) => {
-                html += station.isTransfer ? `<span class="transfer-highlight">🔄 ${station.name}</span>` : `<span class="station-highlight">${station.name}</span>`;
-                if (index < path.length - 1) html += '<span class="arrow-separator">←</span>';
-            });
-            document.getElementById("stationsText").innerHTML = html;
-        }
-
-        function displayJourneyPath(route) {
-            const el = document.getElementById("journeyPath");
-            el.innerHTML = "";
-            let cumulativeTime = 0;
-            
-            route.path.forEach((station, index) => {
-                const div = document.createElement("div");
-                div.className = `station-stop ${station.isTransfer ? 'transfer' : ''}`;
-                const timeText = index === 0 ? 'البداية' : `${cumulativeTime} دقيقة`;
-                div.innerHTML = `<div class="station-header"><div class="station-name">${station.name}</div><div class="station-time">${timeText}</div></div><div class="station-line-badge badge-${station.line}">${lines[station.line].name}</div>`;
-                el.appendChild(div);
-                
-                if (index < route.path.length - 1) {
-                    cumulativeTime += WAIT_TIME_PER_STATION;
-                    if (station.isTransfer && route.path[index + 1].line !== station.line) {
-                        const nextLine = route.path[index + 1].line;
-                        const currentLine = station.line;
-                        const box = document.createElement("div");
-                        box.className = "transfer-box";
-                        box.innerHTML = `<div class="transfer-icon"><i class="fas fa-exchange-alt"></i></div><div class="transfer-title">🔄 محطة تبادلية</div><div class="transfer-station-name">${station.name}</div><div class="transfer-info">هنا سيكون التبديل</div><div class="transfer-lines"><span class="transfer-line-badge" style="background: ${lines[currentLine].color};">${lines[currentLine].name}</span><i class="fas fa-arrows-alt-h transfer-arrow"></i><span class="transfer-line-badge" style="background: ${lines[nextLine].color};">${lines[nextLine].name}</span></div><div class="transfer-wait-time"><i class="fas fa-clock"></i> الانتظار: ${WAIT_TIME_PER_STATION} دقائق</div>`;
-                        el.appendChild(box);
-                    }
-                }
-            });
-        }
-
-        function resetJourney() {
-            document.getElementById("step1").style.display = "block";
-            document.getElementById("step2").style.display = "none";
-            document.getElementById("step3").style.display = "none";
-            document.getElementById("step4").style.display = "none";
-            document.getElementById("resultContainer").style.display = "none";
-            document.getElementById("startLine").value = "";
-            document.getElementById("startStation").value = "";
-            document.getElementById("endLine").value = "";
-            document.getElementById("endStation").value = "";
-            // إعادة عنوان الخطوة 3 لشكله الأصلي
-            document.getElementById("destinationTitle").innerHTML = '<div class="step-number">2</div> اختار خط الوصول';
-        }
-
-        document.getElementById("startLine").addEventListener("change", function() {
-            if (this.value) {
-                populateStationSelect("startStation", this.value);
-                document.getElementById("step2").style.display = "block";
-                document.getElementById("step2").scrollIntoView({ behavior: "smooth" });
-            } else { document.getElementById("step2").style.display = "none"; }
-        });
-
-        document.getElementById("startStation").addEventListener("change", function() {
-            if (this.value) {
-                document.getElementById("step3").style.display = "block";
-                // تعديل العنوان لو كان اليوزر ماشي يدوي
-                document.getElementById("destinationTitle").innerHTML = '<div class="step-number">3</div> اختار خط الوصول';
-                document.getElementById("step3").scrollIntoView({ behavior: "smooth" });
-            } else {
-                document.getElementById("step3").style.display = "none";
-                document.getElementById("step4").style.display = "none";
-            }
-        });
-
-        document.getElementById("endLine").addEventListener("change", function() {
-            if (this.value) {
-                populateStationSelect("endStation", this.value);
-                document.getElementById("step4").style.display = "block";
-                document.getElementById("step4").scrollIntoView({ behavior: "smooth" });
-            } else { document.getElementById("step4").style.display = "none"; }
-        });
-    </script>
 </body>
 </html>
