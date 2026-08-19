@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواصلاتي | دليل مواقف السفر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --border: #334155;
+            --primary: #6366f1;
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text);
+        }
+
+        .container { max-width: 800px; margin: auto; }
+
+        /* زر الرجوع للرئيسية */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+            text-decoration: none;
+            background: var(--card);
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .back-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        .header { text-align: center; margin-bottom: 40px; }
+        .logo { font-size: 60px; margin-bottom: 15px; }
+        .title { font-size: 35px; font-weight: 900; color: var(--primary); margin-bottom: 5px; }
+        .subtitle { font-size: 18px; color: #94a3b8; }
+
+        .search-box {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .form-group label { display: block; margin-bottom: 10px; font-weight: 700; font-size: 18px; }
+        
+        select {
+            width: 100%;
+            padding: 15px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        select:focus { outline: none; border-color: var(--primary); }
+
+        .results-container { display: none; }
+        .result-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; color: var(--warning); border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        
+        .station-card {
+            background: var(--card);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            border-right: 5px solid var(--primary);
+            transition: transform 0.3s;
+        }
+        .station-card:hover { transform: translateX(-5px); border-right-color: var(--warning); }
+        
+        .station-name { font-size: 20px; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .station-name i { color: var(--primary); }
+        .station-notes { font-size: 15px; color: #94a3b8; line-height: 1.6; }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- زر الرجوع -->
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-right"></i>
+            رجوع للرئيسية
+        </a>
+
+        <div class="header">
+            <div class="logo">🚌</div>
+            <h1 class="title">مواصلاتي</h1>
+            <p class="subtitle">اختار المحافظة اللي رايحها واعرف هتركب منين</p>
+        </div>
+
+        <div class="search-box">
+            <div class="form-group">
+                <label><i class="fas fa-map-marker-alt" style="color: var(--warning); margin-left: 5px;"></i> عايز تسافر فين؟</label>
+                <select id="citySelect">
+                    <option value="">-- جاري تحميل المحافظات --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="results-container" id="resultsContainer">
+            <div class="result-title" id="resultTitle">المواقف المتاحة:</div>
+            <div id="stationsList">
+                <!-- الكروت هتظهر هنا -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let transportData = [];
+
+        // جلب البيانات من ملف JSON
+        fetch('mawqef.json')
+            .then(response => response.json())
+            .then(data => {
+                transportData = data.destinations;
+                populateCities();
+            })
+            .catch(error => {
+                console.error('خطأ في تحميل البيانات:', error);
+                document.getElementById('citySelect').innerHTML = '<option value="">حدث خطأ في تحميل البيانات</option>';
+            });
+
+        // تعبئة قائمة المحافظات
+        function populateCities() {
+            const select = document.getElementById('citySelect');
+            select.innerHTML = '<option value="">-- اختار المحافظة --</option>';
+            
+            transportData.forEach((item, index) => {
+                select.innerHTML += `<option value="${index}">${item.city}</option>`;
+            });
+        }
+
+        // عند اختيار محافظة
+        document.getElementById('citySelect').addEventListener('change', function() {
+            const container = document.getElementById('resultsContainer');
+            const stationsList = document.getElementById('stationsList');
+            const title = document.getElementById('resultTitle');
+            
+            if (this.value === "") {
+                container.style.display = "none";
+                return;
+            }
+
+            const selectedData = transportData[this.value];
+            title.innerHTML = `المواقف المتاحة للسفر إلى ( ${selectedData.city} ):`;
+            
+            let html = '';
+            selectedData.stations.forEach(station => {
+                html += `
+                    <div class="station-card">
+                        <div class="station-name">
+                            <i class="fas fa-bus"></i>
+                            ${station.name}
+                        </div>
+                        <div class="station-notes">${station.notes}</div>
+                    </div>
+                `;
+            });
+
+            stationsList.innerHTML = html;
+            container.style.display = "block";
+        });
+    </script>
+</body>
+</html>
