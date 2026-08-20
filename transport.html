@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواصلاتي | دليل مواقف السفر</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,6 +14,7 @@
             --border: #334155;
             --primary: #6366f1;
             --warning: #f59e0b;
+            --success: #10b981;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,7 +29,6 @@
 
         .container { max-width: 800px; margin: auto; }
 
-        /* زر الرجوع للرئيسية */
         .back-btn {
             display: inline-flex;
             align-items: center;
@@ -43,23 +43,57 @@
             transition: all 0.3s;
             font-weight: 600;
         }
-        .back-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .back-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateX(5px); }
 
         .header { text-align: center; margin-bottom: 40px; }
-        .logo { font-size: 60px; margin-bottom: 15px; }
+        .logo { font-size: 60px; margin-bottom: 15px; animation: bounce 2s infinite ease-in-out; }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
         .title { font-size: 35px; font-weight: 900; color: var(--primary); margin-bottom: 5px; }
         .subtitle { font-size: 18px; color: #94a3b8; }
 
-        .search-box {
+        /* تصميم الخطوات زي المترو */
+        .step-container {
             background: var(--card);
-            padding: 30px;
             border-radius: 20px;
-            border: 1px solid var(--border);
+            padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease;
         }
 
-        .form-group label { display: block; margin-bottom: 10px; font-weight: 700; font-size: 18px; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-number {
+            width: 35px;
+            height: 35px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: white;
+        }
+
+        .form-group label { display: block; margin-bottom: 10px; font-weight: 700; font-size: 16px; color: var(--text); }
         
         select {
             width: 100%;
@@ -74,6 +108,7 @@
             transition: all 0.3s;
         }
         select:focus { outline: none; border-color: var(--primary); }
+        select option { background: var(--card); }
 
         .results-container { display: none; }
         .result-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; color: var(--warning); border-bottom: 2px solid var(--border); padding-bottom: 10px; }
@@ -81,24 +116,48 @@
         .station-card {
             background: var(--card);
             border-radius: 15px;
-            padding: 20px;
+            padding: 25px;
             margin-bottom: 15px;
             border: 1px solid var(--border);
             border-right: 5px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             transition: transform 0.3s;
         }
         .station-card:hover { transform: translateX(-5px); border-right-color: var(--warning); }
-        
-        .station-name { font-size: 20px; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+
+        .station-info { flex: 1; }
+        .station-name { font-size: 22px; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
         .station-name i { color: var(--primary); }
         .station-notes { font-size: 15px; color: #94a3b8; line-height: 1.6; }
 
+        .map-btn {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 2px solid var(--success);
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            margin-right: 15px;
+            white-space: nowrap;
+        }
+        .map-btn:hover { background: var(--success); color: white; transform: translateY(-3px); }
+
+        @media (max-width: 600px) {
+            .station-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .map-btn { width: 100%; justify-content: center; margin-right: 0; }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- زر الرجوع -->
         <a href="index.html" class="back-btn">
             <i class="fas fa-arrow-right"></i>
             رجوع للرئيسية
@@ -107,18 +166,38 @@
         <div class="header">
             <div class="logo">🚌</div>
             <h1 class="title">مواصلاتي</h1>
-            <p class="subtitle">اختار المحافظة اللي رايحها واعرف هتركب منين</p>
+            <p class="subtitle">دليلك الذكي للوصول لأي مكان في مصر</p>
         </div>
 
-        <div class="search-box">
+        <!-- الخطوة الأولى: أنت فين؟ -->
+        <div class="step-container" id="step1">
+            <div class="step-title">
+                <div class="step-number">1</div>
+                إنت فين دلوقتي؟ (نقطة الانطلاق)
+            </div>
             <div class="form-group">
-                <label><i class="fas fa-map-marker-alt" style="color: var(--warning); margin-left: 5px;"></i> عايز تسافر فين؟</label>
-                <select id="citySelect">
-                    <option value="">-- جاري تحميل المحافظات --</option>
+                <label><i class="fas fa-map-marker-alt" style="color: var(--warning);"></i> اختار محافظتك الحالية:</label>
+                <select id="originSelect">
+                    <option value="">-- جاري التحميل --</option>
                 </select>
             </div>
         </div>
 
+        <!-- الخطوة التانية: عايز تروح فين؟ (مخفية في البداية) -->
+        <div class="step-container" id="step2" style="display: none;">
+            <div class="step-title">
+                <div class="step-number">2</div>
+                عايز تسافر فين؟ (الوجهة)
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-flag-checkered" style="color: var(--success);"></i> اختار المحافظة اللي رايحها:</label>
+                <select id="destinationSelect">
+                    <option value="">-- اختار الوجهة --</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- النتيجة (المواقف) -->
         <div class="results-container" id="resultsContainer">
             <div class="result-title" id="resultTitle">المواقف المتاحة:</div>
             <div id="stationsList">
@@ -128,59 +207,101 @@
     </div>
 
     <script>
-        let transportData = [];
+        let transportData = {};
 
-        // جلب البيانات من ملف JSON
+        // جلب البيانات من JSON
         fetch('mawqef.json')
             .then(response => response.json())
             .then(data => {
-                transportData = data.destinations;
-                populateCities();
+                transportData = data.origins;
+                populateOrigins();
             })
             .catch(error => {
-                console.error('خطأ في تحميل البيانات:', error);
-                document.getElementById('citySelect').innerHTML = '<option value="">حدث خطأ في تحميل البيانات</option>';
+                console.error('خطأ:', error);
+                document.getElementById('originSelect').innerHTML = '<option value="">حدث خطأ في التحميل</option>';
             });
 
-        // تعبئة قائمة المحافظات
-        function populateCities() {
-            const select = document.getElementById('citySelect');
-            select.innerHTML = '<option value="">-- اختار المحافظة --</option>';
+        // 1. تعبئة قائمة الانطلاق (أنت فين؟)
+        function populateOrigins() {
+            const originSelect = document.getElementById('originSelect');
+            originSelect.innerHTML = '<option value="">-- اختار محافظتك الحالية --</option>';
             
-            transportData.forEach((item, index) => {
-                select.innerHTML += `<option value="${index}">${item.city}</option>`;
-            });
+            // نجيب أسماء المحافظات اللي جوه "origins"
+            for (let origin in transportData) {
+                originSelect.innerHTML += `<option value="${origin}">${origin}</option>`;
+            }
         }
 
-        // عند اختيار محافظة
-        document.getElementById('citySelect').addEventListener('change', function() {
+        // 2. لما يختار نقطة الانطلاق
+        document.getElementById('originSelect').addEventListener('change', function() {
+            const step2 = document.getElementById('step2');
+            const destSelect = document.getElementById('destinationSelect');
+            const resultsContainer = document.getElementById('resultsContainer');
+            
+            // نخفي النتيجة القديمة لو موجودة
+            resultsContainer.style.display = 'none';
+
+            if (this.value === "") {
+                step2.style.display = 'none';
+                return;
+            }
+
+            // نملا قائمة الوجهات بناءً على المكان اللي اختاره
+            const availableDestinations = transportData[this.value];
+            destSelect.innerHTML = '<option value="">-- اختار المحافظة اللي رايحها --</option>';
+            
+            for (let dest in availableDestinations) {
+                destSelect.innerHTML += `<option value="${dest}">${dest}</option>`;
+            }
+
+            // نظهر الخطوة التانية وننزل الشاشة ليها سموث
+            step2.style.display = 'block';
+            step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // 3. لما يختار الوجهة
+        document.getElementById('destinationSelect').addEventListener('change', function() {
+            const origin = document.getElementById('originSelect').value;
+            const destination = this.value;
             const container = document.getElementById('resultsContainer');
             const stationsList = document.getElementById('stationsList');
             const title = document.getElementById('resultTitle');
             
-            if (this.value === "") {
+            if (destination === "") {
                 container.style.display = "none";
                 return;
             }
 
-            const selectedData = transportData[this.value];
-            title.innerHTML = `المواقف المتاحة للسفر إلى ( ${selectedData.city} ):`;
+            // نجيب المواقف المخصصة للرحلة دي
+            const stations = transportData[origin][destination];
             
-            let html = '';
-            selectedData.stations.forEach(station => {
-                html += `
+            title.innerHTML = `المواقف المتاحة للسفر من ( ${origin} ) إلى ( ${destination} ):`;
+            stationsList.innerHTML = '';
+
+            // نرسم كروت المواقف
+            stations.forEach(station => {
+                const mapQuery = encodeURIComponent(station.name + " " + origin);
+                const mapUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
+                stationsList.innerHTML += `
                     <div class="station-card">
-                        <div class="station-name">
-                            <i class="fas fa-bus"></i>
-                            ${station.name}
+                        <div class="station-info">
+                            <div class="station-name">
+                                <i class="fas fa-bus"></i>
+                                ${station.name}
+                            </div>
+                            <div class="station-notes">${station.notes}</div>
                         </div>
-                        <div class="station-notes">${station.notes}</div>
+                        <a href="${mapUrl}" target="_blank" class="map-btn">
+                            <i class="fas fa-map-marked-alt"></i> الخريطة
+                        </a>
                     </div>
                 `;
             });
 
-            stationsList.innerHTML = html;
+            // نظهر النتيجة وننزل الشاشة ليها
             container.style.display = "block";
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     </script>
 </body>
