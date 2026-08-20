@@ -3,27 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>قطار العاصمة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>معاك | قطار العاصمة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --primary: #6366f1; --success: #10b981; --border: #334155; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; overflow-x: hidden; }
         
-        .main-card { background: var(--card); border-radius: 20px; padding: 25px; width: 100%; max-width: 450px; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.3); transition: 0.3s; }
+        /* ================= البراند وأيقونة اللوجو المتحركة ================= */
+        .brand { text-align: center; margin-bottom: 25px; width: 100%; max-width: 450px; }
+        
+        .moving-icon-container {
+            width: 160px; /* مساحة حركة القطار */
+            height: 60px;
+            margin: 0 auto 5px auto;
+            position: relative;
+            /* شلنا overflow: hidden خالص عشان ميعملش تأثير الحفرة أو النفق */
+        }
+
+        .moving-icon {
+            font-size: 50px;
+            color: var(--primary);
+            position: absolute;
+            bottom: -5px; 
+            /* لفة كاملة مدتها 5 ثواني وتتكرر */
+            animation: driveHideLoop 5s linear infinite;
+        }
+
+        @keyframes driveHideLoop {
+            /* واقف في اليمين وظاهر */
+            0%, 30% { right: 0px; opacity: 1; } 
+            
+            /* يوصل لأقصى الشمال (جوه المساحة) ولسه ظاهر */
+            70% { right: 110px; opacity: 1; } 
+            
+            /* يختفي فجأة وهو في مكانه في الشمال من غير ما يدخل في حيطة */
+            71%, 82% { right: 110px; opacity: 0; } 
+            
+            /* يتنقل لليمين وهو مخفي */
+            83% { right: 0px; opacity: 0; } 
+            
+            /* يظهر فجأة مكانه في اليمين ويستعد لدورة جديدة */
+            84%, 100% { right: 0px; opacity: 1; } 
+        }
+
+        .brand h1 { font-size: 40px; font-weight: 900; color: var(--primary); margin-bottom: 2px; }
+        .brand p { font-size: 14px; color: var(--text); opacity: 0.7; }
+
+        /* ================= السكة الحديد (لشاشة التحميل) ================= */
+        .realistic-track-container {
+            width: 100%;
+            height: 50px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .track-rails {
+            position: absolute;
+            bottom: 5px;
+            width: 100%;
+            height: 8px;
+            background: 
+                linear-gradient(to bottom, #94a3b8 1px, transparent 1px, transparent 7px, #94a3b8 7px),
+                repeating-linear-gradient(to right, transparent, transparent 15px, #475569 15px, #475569 20px);
+        }
+
+        /* ================= القطار الواقعي (يظهر وقت التحميل فقط) ================= */
+        .lrt-train {
+            display: flex;
+            align-items: flex-end;
+            position: absolute;
+            bottom: 10px;
+            right: -180px;
+        }
+
+        .fast-train-anim { animation: moveFast 1.5s linear infinite; }
+
+        .carriage {
+            background: #f1f5f9;
+            height: 28px;
+            position: relative;
+            box-shadow: inset 0 -6px 0 #94a3b8; 
+        }
+        
+        .carriage.front { 
+            width: 65px; 
+            border-radius: 28px 4px 4px 6px; 
+            border-left: 2px solid var(--primary); 
+        }
+        .carriage.mid { width: 45px; border-radius: 2px; }
+        .carriage.back { width: 45px; border-radius: 4px 6px 6px 4px; }
+
+        .connector { 
+            width: 6px; 
+            height: 20px; 
+            background: repeating-linear-gradient(to bottom, #1e293b, #1e293b 2px, #0f172a 2px, #0f172a 4px); 
+            margin: 0 1px;
+            transform: translateY(-2px);
+        }
+
+        .carriage::before {
+            content: '';
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; height: 10px;
+            background-image: repeating-linear-gradient(to right, #0f172a 0, #0f172a 9px, transparent 9px, transparent 13px);
+        }
+        .carriage.front::before { left: 28px; right: 5px; }
+
+        .windshield {
+            position: absolute;
+            top: 4px; left: 4px; width: 16px; height: 12px;
+            background: #0f172a;
+            border-radius: 14px 2px 2px 2px;
+            border-left: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .headlight {
+            position: absolute;
+            bottom: 8px; left: -1px; width: 4px; height: 4px;
+            background: #fde047;
+            border-radius: 50%;
+            box-shadow: -6px 0 12px 3px rgba(253, 224, 71, 0.9);
+            z-index: 10;
+        }
+
+        .wheels {
+            position: absolute;
+            bottom: -4px; left: 4px; right: 4px; height: 8px;
+            background-image: radial-gradient(circle at center, #1e293b 3.5px, transparent 4px);
+            background-size: 16px 8px;
+            background-repeat: space;
+        }
+
+        @keyframes moveFast { 0% { right: -180px; } 100% { right: 100%; } }
+
+        /* ======================================================== */
+
+        .main-card { background: var(--card); border-radius: 20px; padding: 25px; width: 100%; max-width: 450px; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         .input-group { margin-bottom: 20px; }
-        select { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-family: 'Cairo'; font-size: 16px; }
-        
-        .btn-calc { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 18px; cursor: pointer; }
-        
-        /* شاشة النتيجة */
+        select { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-family: 'Cairo'; font-size: 16px; outline: none; }
+        .btn-calc { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 18px; cursor: pointer; transition: 0.3s; }
+        .btn-calc:active { transform: scale(0.95); }
+
+        #loadingScreen { display: none; text-align: center; padding: 40px 20px; }
+        .loading-text { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 30px; }
+
         #resultScreen { display: none; text-align: center; }
         .price-big { font-size: 48px; font-weight: 900; color: var(--success); margin: 10px 0; }
-        .info-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 10px 0; border-bottom: 1px solid var(--border); color: var(--muted); }
-        .btn-retry { margin-top: 20px; background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+        .info-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .btn-retry { margin-top: 20px; background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%; font-family: 'Cairo'; font-size: 16px; font-weight: bold;}
     </style>
 </head>
 <body>
+
+    <div class="brand">
+        <div class="moving-icon-container">
+            <!-- الأيقونة هتتبخر وتظهر من غير أي حفر -->
+            <div class="moving-icon">🚈</div>
+        </div>
+        <h1>معاك</h1>
+        <p>أينما كنت.. هنوصلك</p>
+    </div>
 
     <div class="main-card" id="inputScreen">
         <div class="input-group">
@@ -32,45 +174,98 @@
         <div class="input-group">
             <select id="endStation"><option value="" disabled selected>إلى أين تريد الذهاب؟</option></select>
         </div>
-        <button class="btn-calc" onclick="showResult()">احسب التذكرة</button>
+        <button class="btn-calc" onclick="startLoading()">احسب التذكرة</button>
+    </div>
+
+    <div class="main-card" id="loadingScreen">
+        <div class="loading-text">جاري حساب المسافة وتجهيز تذكرتك...</div>
+        
+        <div class="realistic-track-container">
+            <div class="track-rails"></div>
+            <div class="lrt-train fast-train-anim">
+                <div class="carriage back"><div class="wheels"></div></div>
+                <div class="connector"></div>
+                <div class="carriage mid"><div class="wheels"></div></div>
+                <div class="connector"></div>
+                <div class="carriage front">
+                    <div class="headlight"></div>
+                    <div class="windshield"></div>
+                    <div class="wheels"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="main-card" id="resultScreen">
-        <h2 style="margin-bottom: 20px;">تفاصيل الرحلة</h2>
-        <div class="price-big"><span id="priceText">0</span> ج.م</div>
-        
-        <div class="info-row"><span>عدد المحطات:</span> <span id="stationsText" style="color: white;">0</span></div>
-        <div class="info-row"><span>الوقت المتوقع:</span> <span style="color: white;">25 دقيقة</span></div>
-        
-        <button class="btn-retry" onclick="resetApp()">محاولة أخرى</button>
+        <h2 style="margin-bottom: 15px;">تفاصيل الرحلة</h2>
+        <div class="price-big"><span id="priceText">0</span> <small style="font-size: 16px;">ج.م</small></div>
+        <div class="info-row"><span>عدد المحطات:</span> <span id="stationsText">0</span></div>
+        <div class="info-row"><span>الوقت التقريبي:</span> <span id="timeText">0</span></div>
+        <button class="btn-retry" onclick="reset()">محاولة أخرى</button>
     </div>
 
     <script>
-        const stations = ["عدلي منصور", "العبور", "المستقبل", "الشروق", "هليوبوليس الجديدة", "بدر", "الروبيكي", "حدائق العاصمة", "مطار العاصمة", "مدينة الفنون والثقافة"];
-        
-        // تعبئة القوائم
-        stations.forEach(s => {
-            let label = s === "عدلي منصور" ? "عدلي منصور (تبادلية)" : s;
-            document.getElementById('startStation').add(new Option(label, s));
-            document.getElementById('endStation').add(new Option(label, s));
-        });
+        let trainData = null;
+        let allStations = [];
 
-        function showResult() {
+        fetch('capital-train.json')
+            .then(res => res.json())
+            .then(data => {
+                trainData = data;
+                const lines = Object.values(data.routes);
+                lines.forEach(line => {
+                    line.forEach(s => { if(!allStations.includes(s)) allStations.push(s); });
+                });
+                
+                const startSel = document.getElementById('startStation');
+                const endSel = document.getElementById('endStation');
+                allStations.forEach(s => {
+                    startSel.add(new Option(s, s));
+                    endSel.add(new Option(s, s));
+                });
+            });
+
+        function startLoading() {
             const start = document.getElementById('startStation').value;
             const end = document.getElementById('endStation').value;
-            if(!start || !end) return alert("اختر المحطات");
-
-            const count = Math.abs(stations.indexOf(start) - stations.indexOf(end));
-            document.getElementById('priceText').innerText = count * 5 + 5; // حسبة تجريبية
-            document.getElementById('stationsText').innerText = count;
+            
+            if(!start || !end) {
+                alert("من فضلك اختر المحطات أولاً");
+                return;
+            }
+            if(start === end) {
+                alert("محطة البداية هي نفس محطة الوصول!");
+                return;
+            }
 
             document.getElementById('inputScreen').style.display = 'none';
+            document.getElementById('loadingScreen').style.display = 'block';
+
+            setTimeout(() => {
+                calculate(start, end);
+            }, 1800);
+        }
+
+        function calculate(start, end) {
+            const count = Math.abs(allStations.indexOf(start) - allStations.indexOf(end));
+            
+            let price = 0;
+            trainData.pricing.forEach(p => {
+                if(count <= p.maxStations && price === 0) price = p.price;
+            });
+
+            document.getElementById('priceText').innerText = price;
+            document.getElementById('stationsText').innerText = count;
+            document.getElementById('timeText').innerText = (count * 3) + 2 + " دقيقة";
+
+            document.getElementById('loadingScreen').style.display = 'none';
             document.getElementById('resultScreen').style.display = 'block';
         }
 
-        function resetApp() {
+        function reset() {
             document.getElementById('inputScreen').style.display = 'block';
             document.getElementById('resultScreen').style.display = 'none';
+            document.getElementById('loadingScreen').style.display = 'none';
         }
     </script>
 </body>

@@ -21,6 +21,8 @@
             --primary: #6366f1;
             --warning: #f59e0b;
             --price: #f59e0b;
+            --success: #10b981;
+            --info: #06b6d4;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -88,6 +90,40 @@
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text); }
 
+        .search-btn-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-btn-container select { flex: 1; }
+
+        .search-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            min-width: 170px;
+            justify-content: center;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .search-btn i { font-size: 16px; }
+
         select {
             width: 100%;
             padding: 15px;
@@ -123,19 +159,24 @@
         .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
         .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); }
 
-        /* التنسيق الجديد لزر الموقع الجغرافي */
         .unknown-location {
             text-align: center;
             margin-top: 15px;
-            color: var(--primary);
+            color: var(--info);
             font-weight: 700;
             cursor: pointer;
             font-size: 14px;
             transition: all 0.3s;
+            padding: 12px;
+            border: 2px dashed var(--info);
+            border-radius: 12px;
+            background: rgba(6, 182, 212, 0.05);
         }
         .unknown-location:hover {
-            color: var(--warning);
-            text-decoration: underline;
+            color: var(--text);
+            border-color: var(--info);
+            background: rgba(6, 182, 212, 0.15);
+            transform: translateY(-2px);
         }
 
         .result-container { display: none; }
@@ -174,7 +215,269 @@
         .transfer-box .transfer-lines { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
         .transfer-box .transfer-line-badge { padding: 8px 18px; border-radius: 20px; font-weight: 700; font-size: 14px; color: white; }
         .transfer-box .transfer-arrow { color: var(--multi); font-size: 24px; }
+        .transfer-box .transfer-direction-hint {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 12px 20px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            color: var(--success);
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.1);
+        }
         .transfer-box .transfer-wait-time { display: inline-block; margin-top: 10px; padding: 10px 20px; background: rgba(245, 158, 11, 0.1); border: 2px solid var(--warning); border-radius: 10px; color: var(--warning); font-weight: 700; font-size: 15px; }
+
+        /* ===== نافذة البحث الاحترافية ===== */
+        .search-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .search-modal-overlay.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .search-modal {
+            background: var(--card);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .search-modal .modal-icon { font-size: 50px; margin-bottom: 15px; }
+        .search-modal .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: var(--text); }
+        .search-modal .modal-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+        .search-modal .modal-input {
+            width: 100%;
+            padding: 15px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        .search-modal .modal-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        .search-modal .modal-buttons { display: flex; gap: 10px; }
+        .search-modal .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .search-modal .modal-btn-search { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .search-modal .modal-btn-search:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); }
+        .search-modal .modal-btn-cancel { background: #334155; color: var(--text); }
+        .search-modal .modal-btn-cancel:hover { background: #475569; }
+        .search-modal .modal-results { margin-top: 15px; max-height: 200px; overflow-y: auto; display: none; }
+        .search-modal .modal-result-item {
+            padding: 10px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .search-modal .modal-result-item:hover { border-color: var(--primary); background: var(--card); }
+        /* ===== نهاية نافذة البحث ===== */
+
+        /* ===== نافذة تحديد الموقع ===== */
+        .location-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .location-modal-overlay.active { display: flex; }
+
+        .location-modal {
+            background: var(--card);
+            border: 2px solid var(--info);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(6, 182, 212, 0.4);
+            animation: slideUp 0.3s ease;
+        }
+
+        .location-modal .location-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .location-modal .location-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .location-modal .location-subtitle {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .location-modal .location-status {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .location-modal .location-status.loading {
+            display: block;
+            background: rgba(6, 182, 212, 0.1);
+            border: 2px solid var(--info);
+            color: var(--info);
+            font-weight: 700;
+        }
+
+        .location-modal .location-status.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success);
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .location-modal .location-status.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid #ef4444;
+            color: #ef4444;
+            font-weight: 700;
+        }
+
+        .location-modal .location-station-info {
+            display: none;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .location-modal .location-station-info.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        .location-modal .station-detail-name {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--success);
+            margin-bottom: 5px;
+        }
+
+        .location-modal .station-detail-line {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+
+        .location-modal .station-detail-distance {
+            font-size: 13px;
+            color: var(--info);
+            font-weight: 700;
+        }
+
+        .location-modal .location-buttons { display: flex; gap: 10px; }
+        .location-modal .location-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .location-modal .location-btn-confirm { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .location-modal .location-btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); }
+        .location-modal .location-btn-cancel { background: #334155; color: var(--text); }
+        .location-modal .location-btn-cancel:hover { background: #475569; }
+        /* ===== نهاية نافذة تحديد الموقع ===== */
+
+        @media (max-width: 500px) {
+            .search-btn-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-btn {
+                min-width: 100%;
+                padding: 12px;
+                font-size: 13px;
+            }
+            .search-modal, .location-modal {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -194,17 +497,23 @@
             
             <div class="form-group">
                 <label><i class="fas fa-subway"></i> اختر الخط</label>
-                <select id="startLine">
-                    <option value="">-- اختر خط البداية --</option>
-                    <option value="line1">🚇 الخط الأول</option>
-                    <option value="line2">🚂 الخط الثاني</option>
-                    <option value="line3">🚃 الخط الثالث</option>
-                </select>
+                <div class="search-btn-container">
+                    <select id="startLine">
+                        <option value="">-- اختر خط البداية --</option>
+                        <option value="line1">🚇 الخط الأول</option>
+                        <option value="line2">🚂 الخط الثاني</option>
+                        <option value="line3">🚃 الخط الثالث</option>
+                    </select>
+                    <button class="search-btn" onclick="openSearchModal('start')">
+                        <i class="fas fa-search"></i>
+                        ابحث عن محطتك
+                    </button>
+                </div>
             </div>
 
-            <!-- الجملة السحرية تحت الاختيار -->
-            <div class="unknown-location" onclick="locateNearestStation()" id="locateBtn">
-                🤔 لا أعلم أين أنا.. حدد موقعي تلقائياً
+            <div class="unknown-location" onclick="openLocationModal()" id="locateBtn">
+                <i class="fas fa-location-crosshairs"></i>
+                لا أعلم أين أنا.. حدد موقعي تلقائياً
             </div>
         </div>
 
@@ -228,12 +537,18 @@
             </div>
             <div class="form-group">
                 <label><i class="fas fa-subway"></i> اختر الخط</label>
-                <select id="endLine">
-                    <option value="">-- اختر خط الوصول --</option>
-                    <option value="line1">🚇 الخط الأول</option>
-                    <option value="line2">🚂 الخط الثاني</option>
-                    <option value="line3">🚃 الخط الثالث</option>
-                </select>
+                <div class="search-btn-container">
+                    <select id="endLine">
+                        <option value="">-- اختر خط الوصول --</option>
+                        <option value="line1">🚇 الخط الأول</option>
+                        <option value="line2">🚂 الخط الثاني</option>
+                        <option value="line3">🚃 الخط الثالث</option>
+                    </select>
+                    <button class="search-btn" onclick="openSearchModal('end')">
+                        <i class="fas fa-search"></i>
+                        ابحث عن محطتك
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -293,9 +608,57 @@
         </div>
     </div>
 
+    <!-- نافذة البحث -->
+    <div class="search-modal-overlay" id="searchModalOverlay">
+        <div class="search-modal">
+            <div class="modal-icon">🔍</div>
+            <div class="modal-title">ابحث عن محطتك</div>
+            <div class="modal-subtitle">اكتب اسم المحطة اللي بتدور عليها</div>
+            <input type="text" class="modal-input" id="searchModalInput" placeholder="مثال: السادات، المعادي، الشهداء..." oninput="showSearchResults(this.value)">
+            <div class="modal-results" id="searchModalResults"></div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-search" onclick="confirmSearch()">
+                    <i class="fas fa-check"></i>
+                    تأكيد
+                </button>
+                <button class="modal-btn modal-btn-cancel" onclick="closeSearchModal()">
+                    <i class="fas fa-times"></i>
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تحديد الموقع -->
+    <div class="location-modal-overlay" id="locationModalOverlay">
+        <div class="location-modal">
+            <div class="location-icon" id="locationIcon">📍</div>
+            <div class="location-title" id="locationTitle">تحديد موقعك</div>
+            <div class="location-subtitle">هنحدد أقرب محطة مترو ليك تلقائياً</div>
+            <div class="location-status" id="locationStatus"></div>
+            <div class="location-station-info" id="locationStationInfo">
+                <div class="station-detail-name" id="locStationName"></div>
+                <div class="station-detail-line" id="locStationLine"></div>
+                <div class="station-detail-distance" id="locStationDistance"></div>
+            </div>
+            <div class="location-buttons">
+                <button class="location-btn location-btn-confirm" id="locationConfirmBtn" onclick="confirmLocation()" style="display: none;">
+                    <i class="fas fa-check"></i>
+                    استخدم هذه المحطة
+                </button>
+                <button class="location-btn location-btn-cancel" onclick="closeLocationModal()">
+                    <i class="fas fa-times"></i>
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let transferStations = {};
         let allStationsCoords = []; 
+        let currentSearchType = 'start';
+        let locatedStation = null;
         
         const lines = {
             line1: { name: "الخط الأول", color: "#0056b3", stations: [] },
@@ -330,11 +693,9 @@
                     let currentLine = data.lines[lineKey]; 
                     currentLine.stations.forEach(station => {
                         let name = station.name;
-                        
                         if (!lines[lineKey].stations.includes(name)) {
                             lines[lineKey].stations.push(name);
                         }
-                        
                         if(station.lat && station.lng) {
                             allStationsCoords.push({
                                 name: name,
@@ -343,7 +704,6 @@
                                 lng: station.lng
                             });
                         }
-                        
                         if (station.transfer === true) {
                             let tLines = station.transferLines;
                             let tNames = tLines.map(k => data.lines[k].name); 
@@ -354,6 +714,192 @@
             }
         }
 
+        // ===== وظائف نافذة البحث =====
+        function openSearchModal(type) {
+            currentSearchType = type;
+            document.getElementById("searchModalOverlay").classList.add("active");
+            document.getElementById("searchModalInput").value = "";
+            document.getElementById("searchModalResults").style.display = "none";
+            document.getElementById("searchModalResults").innerHTML = "";
+            setTimeout(() => { document.getElementById("searchModalInput").focus(); }, 300);
+        }
+
+        function closeSearchModal() {
+            document.getElementById("searchModalOverlay").classList.remove("active");
+        }
+
+        function showSearchResults(query) {
+            const resultsDiv = document.getElementById("searchModalResults");
+            if (!query || query.trim() === "") {
+                resultsDiv.style.display = "none";
+                resultsDiv.innerHTML = "";
+                return;
+            }
+            const term = query.trim();
+            const results = [];
+            for (let lineKey in lines) {
+                lines[lineKey].stations.forEach(station => {
+                    if (station.includes(term)) {
+                        results.push({ name: station, line: lineKey, lineName: lines[lineKey].name });
+                    }
+                });
+            }
+            if (results.length > 0) {
+                resultsDiv.style.display = "block";
+                resultsDiv.innerHTML = "";
+                results.slice(0, 10).forEach(result => {
+                    const item = document.createElement("div");
+                    item.className = "modal-result-item";
+                    item.innerHTML = `${result.name} <span style="color: ${lines[result.line].color}; font-weight: 700;">(${result.lineName})</span>`;
+                    item.onclick = function() {
+                        document.getElementById("searchModalInput").value = result.name;
+                        resultsDiv.style.display = "none";
+                        confirmSearch();
+                    };
+                    resultsDiv.appendChild(item);
+                });
+            } else {
+                resultsDiv.style.display = "none";
+            }
+        }
+
+        function confirmSearch() {
+            const searchTerm = document.getElementById("searchModalInput").value.trim();
+            if (!searchTerm) { alert("الرجاء كتابة اسم المحطة"); return; }
+            let foundStation = null;
+            let foundLine = null;
+            for (let lineKey in lines) {
+                const station = lines[lineKey].stations.find(s => s === searchTerm || s.includes(searchTerm));
+                if (station) { foundStation = station; foundLine = lineKey; break; }
+            }
+            if (foundStation && foundLine) {
+                if (currentSearchType === 'start') {
+                    document.getElementById("startLine").value = foundLine;
+                    populateStationSelect("startStation", foundLine);
+                    document.getElementById("startStation").value = foundStation;
+                    document.getElementById("step1").style.display = "none";
+                    document.getElementById("step2").style.display = "none";
+                    document.getElementById("step3").style.display = "block";
+                    document.getElementById("destinationTitle").innerHTML = '<div class="step-number">2</div> اختار خط الوصول (إلى أين؟)';
+                    document.getElementById("step3").scrollIntoView({ behavior: "smooth" });
+                } else {
+                    document.getElementById("endLine").value = foundLine;
+                    populateStationSelect("endStation", foundLine);
+                    document.getElementById("endStation").value = foundStation;
+                    document.getElementById("step3").style.display = "none";
+                    document.getElementById("step4").style.display = "block";
+                    document.getElementById("step4").scrollIntoView({ behavior: "smooth" });
+                }
+                closeSearchModal();
+            } else {
+                alert("❌ مفيش محطة بالاسم ده. جرب تكتب اسم تاني.");
+            }
+        }
+
+        document.getElementById("searchModalOverlay").addEventListener("click", function(e) {
+            if (e.target === this) closeSearchModal();
+        });
+
+        // ===== وظائف نافذة تحديد الموقع =====
+        function openLocationModal() {
+            document.getElementById("locationModalOverlay").classList.add("active");
+            document.getElementById("locationStatus").className = "location-status loading";
+            document.getElementById("locationStatus").innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري تحديد موقعك...';
+            document.getElementById("locationStationInfo").classList.remove("show");
+            document.getElementById("locationConfirmBtn").style.display = "none";
+            document.getElementById("locationIcon").textContent = "📍";
+            document.getElementById("locationTitle").textContent = "تحديد موقعك";
+            
+            startGeolocation();
+        }
+
+        function closeLocationModal() {
+            document.getElementById("locationModalOverlay").classList.remove("active");
+        }
+
+        function startGeolocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        let userLat = position.coords.latitude;
+                        let userLng = position.coords.longitude;
+                        let nearestStation = null;
+                        let minDistance = Infinity;
+
+                        allStationsCoords.forEach(st => {
+                            let d = getDistanceFromLatLonInKm(userLat, userLng, st.lat, st.lng);
+                            if (d < minDistance) {
+                                minDistance = d;
+                                nearestStation = st;
+                            }
+                        });
+
+                        if (nearestStation) {
+                            locatedStation = nearestStation;
+                            document.getElementById("locationStatus").className = "location-status success";
+                            document.getElementById("locationStatus").innerHTML = '<i class="fas fa-check-circle"></i> تم تحديد موقعك بنجاح!';
+                            document.getElementById("locationIcon").textContent = "✅";
+                            document.getElementById("locationTitle").textContent = "أقرب محطة ليك";
+                            
+                            document.getElementById("locStationName").textContent = nearestStation.name;
+                            document.getElementById("locStationLine").textContent = "الخط: " + lines[nearestStation.line].name;
+                            document.getElementById("locStationDistance").textContent = "المسافة: " + minDistance.toFixed(2) + " كم";
+                            
+                            document.getElementById("locationStationInfo").classList.add("show");
+                            document.getElementById("locationConfirmBtn").style.display = "flex";
+                        }
+                    },
+                    function(error) {
+                        document.getElementById("locationStatus").className = "location-status error";
+                        document.getElementById("locationStatus").innerHTML = '<i class="fas fa-exclamation-circle"></i> مش قادرين نحدد مكانك. اتأكد إنك فاتح الـ GPS';
+                        document.getElementById("locationIcon").textContent = "❌";
+                        document.getElementById("locationTitle").textContent = "خطأ في تحديد الموقع";
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                document.getElementById("locationStatus").className = "location-status error";
+                document.getElementById("locationStatus").innerHTML = '<i class="fas fa-exclamation-circle"></i> متصفحك لا يدعم تحديد الموقع';
+                document.getElementById("locationIcon").textContent = "❌";
+            }
+        }
+
+        function confirmLocation() {
+            if (locatedStation) {
+                document.getElementById("startLine").value = locatedStation.line;
+                populateStationSelect("startStation", locatedStation.line);
+                document.getElementById("startStation").value = locatedStation.name;
+                
+                document.getElementById("step1").style.display = "none";
+                document.getElementById("step2").style.display = "none";
+                document.getElementById("step3").style.display = "block";
+                document.getElementById("destinationTitle").innerHTML = '<div class="step-number">2</div> اختار خط الوصول (إلى أين؟)';
+                document.getElementById("step3").scrollIntoView({ behavior: "smooth" });
+                
+                closeLocationModal();
+                locatedStation = null;
+            }
+        }
+
+        document.getElementById("locationModalOverlay").addEventListener("click", function(e) {
+            if (e.target === this) closeLocationModal();
+        });
+
+        // إغلاق النوافذ بـ Escape
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                closeSearchModal();
+                closeLocationModal();
+            }
+            if (e.key === "Enter" && document.getElementById("searchModalOverlay").classList.contains("active")) {
+                confirmSearch();
+            }
+        });
+
         function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
             var R = 6371; 
             var dLat = (lat2-lat1) * (Math.PI/180);
@@ -363,54 +909,6 @@
                     Math.sin(dLon/2) * Math.sin(dLon/2); 
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
             return R * c; 
-        }
-
-        // التحديث الجديد للملء التلقائي والانتقال المباشر للوجهة
-        function locateNearestStation() {
-            const btn = document.getElementById("locateBtn");
-            if (navigator.geolocation) {
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري البحث...';
-                
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    let userLat = position.coords.latitude;
-                    let userLng = position.coords.longitude;
-                    let nearestStation = null;
-                    let minDistance = Infinity;
-
-                    allStationsCoords.forEach(st => {
-                        let d = getDistanceFromLatLonInKm(userLat, userLng, st.lat, st.lng);
-                        if (d < minDistance) {
-                            minDistance = d;
-                            nearestStation = st;
-                        }
-                    });
-
-                    if (nearestStation) {
-                        alert("📍 تم التحديد: أقرب محطة ليك هي " + nearestStation.name);
-                        
-                        // تعبئة البيانات في الخلفية
-                        document.getElementById("startLine").value = nearestStation.line;
-                        populateStationSelect("startStation", nearestStation.line); 
-                        document.getElementById("startStation").value = nearestStation.name;
-                        
-                        // إخفاء أول خطوتين والانتقال للوجهة مباشرة
-                        document.getElementById("step1").style.display = "none";
-                        document.getElementById("step2").style.display = "none";
-                        
-                        document.getElementById("step3").style.display = "block";
-                        // تعديل بسيط عشان يحس إنه الخطوة اللي عليها الدور
-                        document.getElementById("destinationTitle").innerHTML = '<div class="step-number">2</div> اختار خط الوصول (إلى أين؟)';
-                        document.getElementById("step3").scrollIntoView({ behavior: "smooth" });
-                        
-                        btn.innerHTML = '🤔 لا أعلم أين أنا.. حدد موقعي تلقائياً';
-                    }
-                }, function(error) {
-                    alert("⚠️ مش قادرين نحدد مكانك. اتأكد إنك فاتح الـ Location (GPS).");
-                    btn.innerHTML = '🤔 لا أعلم أين أنا.. حدد موقعي تلقائياً';
-                });
-            } else {
-                alert("متصفحك لا يدعم تحديد الموقع.");
-            }
         }
 
         function calculatePrice(count) {
@@ -540,9 +1038,37 @@
                     if (station.isTransfer && route.path[index + 1].line !== station.line) {
                         const nextLine = route.path[index + 1].line;
                         const currentLine = station.line;
+                        
+                        const nextLineStations = lines[nextLine].stations;
+                        const transferIdx = nextLineStations.indexOf(station.name);
+                        const nextStationIdx = nextLineStations.indexOf(route.path[index + 1].name);
+                        
+                        let targetDirectionName = "";
+                        if (nextStationIdx > transferIdx) {
+                            targetDirectionName = nextLineStations[nextLineStations.length - 1];
+                        } else {
+                            targetDirectionName = nextLineStations[0];
+                        }
+
                         const box = document.createElement("div");
                         box.className = "transfer-box";
-                        box.innerHTML = `<div class="transfer-icon"><i class="fas fa-exchange-alt"></i></div><div class="transfer-title">🔄 محطة تبادلية</div><div class="transfer-station-name">${station.name}</div><div class="transfer-info">هنا سيكون التبديل</div><div class="transfer-lines"><span class="transfer-line-badge" style="background: ${lines[currentLine].color};">${lines[currentLine].name}</span><i class="fas fa-arrows-alt-h transfer-arrow"></i><span class="transfer-line-badge" style="background: ${lines[nextLine].color};">${lines[nextLine].name}</span></div><div class="transfer-wait-time"><i class="fas fa-clock"></i> الانتظار: ${WAIT_TIME_PER_STATION} دقائق</div>`;
+                        
+                        box.innerHTML = `
+                            <div class="transfer-icon"><i class="fas fa-exchange-alt"></i></div>
+                            <div class="transfer-title">🔄 محطة تبادلية</div>
+                            <div class="transfer-station-name">${station.name}</div>
+                            <div class="transfer-info">هنا سيكون التبديل</div>
+                            <div class="transfer-lines">
+                                <span class="transfer-line-badge" style="background: ${lines[currentLine].color};">${lines[currentLine].name}</span>
+                                <i class="fas fa-arrows-alt-h transfer-arrow"></i>
+                                <span class="transfer-line-badge" style="background: ${lines[nextLine].color};">${lines[nextLine].name}</span>
+                            </div>
+                            <div class="transfer-direction-hint">
+                                <i class="fas fa-compass"></i> هتركب اتجاه: ${targetDirectionName}
+                            </div>
+                            <br>
+                            <div class="transfer-wait-time"><i class="fas fa-clock"></i> الانتظار: ${WAIT_TIME_PER_STATION} دقائق</div>
+                        `;
                         el.appendChild(box);
                     }
                 }
@@ -559,7 +1085,6 @@
             document.getElementById("startStation").value = "";
             document.getElementById("endLine").value = "";
             document.getElementById("endStation").value = "";
-            // إعادة عنوان الخطوة 3 لشكله الأصلي
             document.getElementById("destinationTitle").innerHTML = '<div class="step-number">2</div> اختار خط الوصول';
         }
 
@@ -574,7 +1099,6 @@
         document.getElementById("startStation").addEventListener("change", function() {
             if (this.value) {
                 document.getElementById("step3").style.display = "block";
-                // تعديل العنوان لو كان اليوزر ماشي يدوي
                 document.getElementById("destinationTitle").innerHTML = '<div class="step-number">3</div> اختار خط الوصول';
                 document.getElementById("step3").scrollIntoView({ behavior: "smooth" });
             } else {
