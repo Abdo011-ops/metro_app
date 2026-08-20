@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معاك | دليل مترو القاهرة</title>
+    <link rel="icon" type="image/jpeg" href="icon.jpeg">
     <meta name="description" content="دليل خريطة مترو القاهرة الذكي. اعرف أقرب محطة مترو ليك، احسب عدد المحطات، وسعر التذكرة.">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -896,10 +897,19 @@
         let currentSearchType = 'start';
         let locatedStation = null;
         
+        // ===== هيكل البيانات: خطين داخليين للخط الثالث =====
         const lines = {
             line1: { name: "الخط الأول", color: "#0056b3", stations: [] },
             line2: { name: "الخط الثاني", color: "#dc3545", stations: [] },
-            line3: { name: "الخط الثالث", color: "#28a745", stations: [] }
+            line3: { name: "الخط الثالث", color: "#28a745", stations: [] },
+            line3b: { name: "الخط الثالث", color: "#28a745", stations: [] }
+        };
+
+        // خريطة المستخدم: 3 خطوط فقط
+        const userLineMapping = {
+            line1: ["line1"],
+            line2: ["line2"],
+            line3: ["line3", "line3b"]
         };
 
         let WAIT_TIME_PER_STATION = 3;
@@ -978,7 +988,7 @@
                         }
                         if (station.transfer === true) {
                             let tLines = station.transferLines;
-                            let tNames = tLines.map(k => data.lines[k].name); 
+                            let tNames = tLines.map(k => data.lines[k] ? data.lines[k].name : lines[k].name); 
                             transferStations[name] = { lines: tLines, names: tNames };
                         }
                     });
@@ -1009,20 +1019,25 @@
             }
             const term = query.trim();
             const results = [];
+            const addedStations = new Set();
+            
             for (let lineKey in lines) {
                 lines[lineKey].stations.forEach(station => {
-                    if (station.includes(term)) {
-                        results.push({ name: station, line: lineKey, lineName: lines[lineKey].name });
+                    if (station.includes(term) && !addedStations.has(station)) {
+                        addedStations.add(station);
+                        const displayLine = lineKey === 'line3b' ? 'line3' : lineKey;
+                        results.push({ name: station, line: displayLine, lineName: lines[lineKey].name });
                     }
                 });
             }
+            
             if (results.length > 0) {
                 resultsDiv.style.display = "block";
                 resultsDiv.innerHTML = "";
                 results.slice(0, 10).forEach(result => {
                     const item = document.createElement("div");
                     item.className = "modal-result-item";
-                    item.innerHTML = `${result.name} <span style="color: ${lines[result.line].color}; font-weight: 700;">(${result.lineName})</span>`;
+                    item.innerHTML = `${result.name} <span style="color: ${lines[result.line].color || '#28a745'}; font-weight: 700;">(${result.lineName})</span>`;
                     item.onclick = function() {
                         document.getElementById("searchModalInput").value = result.name;
                         resultsDiv.style.display = "none";
@@ -1043,14 +1058,18 @@
             }
             let foundStation = null;
             let foundLine = null;
+            
             for (let lineKey in lines) {
                 const station = lines[lineKey].stations.find(s => s === searchTerm || s.includes(searchTerm));
                 if (station) { foundStation = station; foundLine = lineKey; break; }
             }
+            
             if (foundStation && foundLine) {
+                const displayLine = foundLine === 'line3b' ? 'line3' : foundLine;
+                
                 if (currentSearchType === 'start') {
-                    document.getElementById("startLine").value = foundLine;
-                    populateStationSelect("startStation", foundLine);
+                    document.getElementById("startLine").value = displayLine;
+                    populateStationSelect("startStation", displayLine);
                     document.getElementById("startStation").value = foundStation;
                     document.getElementById("step1").style.display = "none";
                     document.getElementById("step2").style.display = "none";
@@ -1058,8 +1077,8 @@
                     document.getElementById("destinationTitle").innerHTML = '<div class="step-number">2</div> اختار خط الوصول (إلى أين؟)';
                     document.getElementById("step3").scrollIntoView({ behavior: "smooth", block: "center" });
                 } else {
-                    document.getElementById("endLine").value = foundLine;
-                    populateStationSelect("endStation", foundLine);
+                    document.getElementById("endLine").value = displayLine;
+                    populateStationSelect("endStation", displayLine);
                     document.getElementById("endStation").value = foundStation;
                     document.getElementById("step3").style.display = "none";
                     document.getElementById("step4").style.display = "block";
@@ -1068,7 +1087,7 @@
                 closeSearchModal();
             } else {
                 closeSearchModal();
-                showCustomAlert(`مفيش محطة بالاسم "${searchTerm}"! 😕\nجرب تكتب اسم تاني أو استخدم البحث الصوتي.`, "error");
+                showCustomAlert(`مفيش محطة بالاسم "${searchTerm}"! 😕\nجرب تكتب اسم تاني.`, "error");
             }
         }
 
@@ -1118,7 +1137,8 @@
                             document.getElementById("locationTitle").textContent = "أقرب محطة ليك";
                             
                             document.getElementById("locStationName").textContent = nearestStation.name;
-                            document.getElementById("locStationLine").textContent = "الخط: " + lines[nearestStation.line].name;
+                            const displayLine = nearestStation.line === 'line3b' ? 'line3' : nearestStation.line;
+                            document.getElementById("locStationLine").textContent = "الخط: " + lines[displayLine].name;
                             document.getElementById("locStationDistance").textContent = "المسافة: " + minDistance.toFixed(2) + " كم";
                             
                             document.getElementById("locationStationInfo").classList.add("show");
@@ -1146,8 +1166,9 @@
 
         function confirmLocation() {
             if (locatedStation) {
-                document.getElementById("startLine").value = locatedStation.line;
-                populateStationSelect("startStation", locatedStation.line);
+                const displayLine = locatedStation.line === 'line3b' ? 'line3' : locatedStation.line;
+                document.getElementById("startLine").value = displayLine;
+                populateStationSelect("startStation", displayLine);
                 document.getElementById("startStation").value = locatedStation.name;
                 
                 document.getElementById("step1").style.display = "none";
@@ -1198,13 +1219,27 @@
             if (lines.line1.stations.includes(name)) result.push("line1");
             if (lines.line2.stations.includes(name)) result.push("line2");
             if (lines.line3.stations.includes(name)) result.push("line3");
+            if (lines.line3b.stations.includes(name)) result.push("line3b");
             return result;
         }
 
-        function populateStationSelect(selectId, lineKey) {
+        function populateStationSelect(selectId, userLineKey) {
             const select = document.getElementById(selectId);
             select.innerHTML = '<option value="">-- اختر المحطة --</option>';
-            lines[lineKey].stations.forEach(station => { select.innerHTML += `<option value="${station}">${station}</option>`; });
+            
+            const stationSet = new Set();
+            const internalLines = userLineMapping[userLineKey] || [userLineKey];
+            
+            internalLines.forEach(lineKey => {
+                if (lines[lineKey]) {
+                    lines[lineKey].stations.forEach(station => {
+                        if (!stationSet.has(station)) {
+                            stationSet.add(station);
+                            select.innerHTML += `<option value="${station}">${station}</option>`;
+                        }
+                    });
+                }
+            });
         }
 
         function findRoute(startStation, endStation) {
@@ -1220,7 +1255,7 @@
                     const path = [];
                     const step = si < ei ? 1 : -1;
                     for (let i = si; i !== ei + step; i += step) {
-                        path.push({ name: stations[i], line: commonLine, isTransfer: transferStations[stations[i]] ? true : false });
+                        path.push({ name: stations[i], line: commonLine, isTransfer: transferStations[stations[i]] ? true : false, isActualTransfer: false });
                     }
                     const direction = si < ei ? stations[stations.length - 1] : stations[0];
                     return { 
@@ -1257,11 +1292,12 @@
                 const path = [];
                 const step1 = startIdx < transferIdx ? 1 : -1;
                 for (let i = startIdx; i !== transferIdx + step1; i += step1) {
-                    path.push({ name: firstStations[i], line: firstLine, isTransfer: transferStations[firstStations[i]] ? true : false });
+                    const isTransferStation = (firstStations[i] === transferStation);
+                    path.push({ name: firstStations[i], line: firstLine, isTransfer: isTransferStation, isActualTransfer: isTransferStation });
                 }
                 const step2 = transferIdx2 < endIdx ? 1 : -1;
                 for (let i = transferIdx2 + step2; i !== endIdx + step2; i += step2) {
-                    path.push({ name: secondStations[i], line: secondLine, isTransfer: transferStations[secondStations[i]] ? true : false });
+                    path.push({ name: secondStations[i], line: secondLine, isTransfer: false, isActualTransfer: false });
                 }
                 
                 const route = { 
@@ -1353,34 +1389,17 @@
             }
         }
 
+        // ===== دالة عرض المسار مع تجنب تكرار محطة التبديل =====
         function displayJourneyPath(route) {
             const el = document.getElementById("journeyPath");
             el.innerHTML = "";
             let cumulativeTime = 0;
             
             route.path.forEach((station, index) => {
-                const div = document.createElement("div");
-                div.className = `station-stop ${station.isTransfer ? 'transfer' : ''}`;
-                const timeText = index === 0 ? 'البداية' : `${cumulativeTime} دقيقة`;
-                
-                const stationLines = getStationLines(station.name);
-                let lineBadgesHTML = '';
-                stationLines.forEach(lineKey => {
-                    lineBadgesHTML += `<span class="station-line-badge badge-${lineKey}">${lines[lineKey].name}</span>`;
-                });
-                
-                div.innerHTML = `
-                    <div class="station-header">
-                        <div class="station-name">${station.name}</div>
-                        <div class="station-time">${timeText}</div>
-                    </div>
-                    <div class="station-line-badges">${lineBadgesHTML}</div>
-                `;
-                el.appendChild(div);
-                
-                if (index < route.path.length - 1) {
-                    cumulativeTime += WAIT_TIME_PER_STATION;
-                    if (station.isTransfer && route.path[index + 1].line !== station.line) {
+                if (station.isActualTransfer) {
+                    if (index < route.path.length - 1) {
+                        cumulativeTime += WAIT_TIME_PER_STATION;
+                        
                         const nextLine = route.path[index + 1].line;
                         const currentLine = station.line;
                         
@@ -1415,6 +1434,30 @@
                             <div class="transfer-wait-time"><i class="fas fa-clock"></i> الانتظار: ${WAIT_TIME_PER_STATION} دقائق</div>
                         `;
                         el.appendChild(box);
+                    }
+                } else {
+                    const div = document.createElement("div");
+                    div.className = "station-stop";
+                    const timeText = index === 0 ? 'البداية' : `${cumulativeTime} دقيقة`;
+                    
+                    const stationLines = getStationLines(station.name);
+                    let lineBadgesHTML = '';
+                    stationLines.forEach(lineKey => {
+                        const displayLine = lineKey === 'line3b' ? 'line3' : lineKey;
+                        lineBadgesHTML += `<span class="station-line-badge badge-${displayLine}">${lines[lineKey].name}</span>`;
+                    });
+                    
+                    div.innerHTML = `
+                        <div class="station-header">
+                            <div class="station-name">${station.name}</div>
+                            <div class="station-time">${timeText}</div>
+                        </div>
+                        <div class="station-line-badges">${lineBadgesHTML}</div>
+                    `;
+                    el.appendChild(div);
+                    
+                    if (index < route.path.length - 1) {
+                        cumulativeTime += WAIT_TIME_PER_STATION;
                     }
                 }
             });

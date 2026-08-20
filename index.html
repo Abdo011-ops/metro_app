@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>دليلك | المنصة الشاملة للمواصلات</title>
     
+    <!-- أيقونة الموقع في المتصفح -->
+    <link rel="icon" type="image/jpeg" href="icon.jpeg">
+    
     <!-- الخطوط والأيقونات -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,7 +30,6 @@
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
-            /* منع تحديد النص بالغلط أثناء السحب */
             -webkit-user-select: none;
             user-select: none;
         }
@@ -52,7 +54,23 @@
             z-index: 1;
         }
 
-        /* تنسيق العنوان */
+        /* ===== اللوجو الدائري ===== */
+        .logo-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
         .header-title {
             font-size: 42px;
             font-weight: 900;
@@ -78,18 +96,16 @@
             line-height: 1.5;
         }
 
-        /* إعدادات مساحة السحب */
         .swiper {
             width: 100%;
-            padding-bottom: 40px; /* مساحة للنقط اللي تحت */
+            padding-bottom: 40px;
         }
 
         .swiper-slide {
-            width: 160px; /* عرض الكارت الواحد في الموبايل */
+            width: 160px;
             height: auto;
         }
 
-        /* تصميم الكارت */
         .service-card {
             background: var(--card);
             border: 2px solid var(--border);
@@ -104,6 +120,7 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             height: 100%;
             transition: transform 0.2s;
+            cursor: pointer;
         }
 
         .service-card:active {
@@ -131,7 +148,6 @@
             white-space: normal;
         }
 
-        /* تنسيق النقط اللي تحت السلايدر */
         .swiper-pagination-bullet {
             background: var(--muted);
             opacity: 0.5;
@@ -146,17 +162,20 @@
             border-radius: 5px;
         }
 
-        /* للشاشات الأكبر شوية */
         @media (min-width: 400px) {
             .swiper-slide { width: 180px; }
             .service-title { font-size: 18px; }
             .service-desc { font-size: 12px; }
+            .logo-image { width: 120px; height: 120px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- اللوجو الدائري -->
+        <img src="icon.jpeg" alt="معاك" class="logo-image">
+        
         <!-- العنوان -->
         <h1 class="header-title">معاك</h1>
         <h2 class="header-title-2">في أي طريق</h2>
@@ -200,18 +219,43 @@
         </div>
     </div>
 
+    <!-- عنصر الصوت -->
+    <audio id="welcomeAudio" preload="auto">
+        <source src="welcome.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- ملفات الجافاسكريبت بتاعة السلاسة (Swiper JS) -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
         // كود تشغيل السحب وضبط إعداداته
         var swiper = new Swiper(".mySwiper", {
-            slidesPerView: "auto", // بيخلي عرض الكارت يتضبط أوتوماتيك زي ما حددناه في الـ CSS
-            spaceBetween: 15,      // المسافة بين الكروت
-            grabCursor: true,      // بيغير شكل الماوس لـ "إيد بتمسك" لو فاتح من كمبيوتر
+            slidesPerView: "auto",
+            spaceBetween: 15,
+            grabCursor: true,
             pagination: {
                 el: ".swiper-pagination",
-                clickable: true,   // يخلي المستخدم يقدر يدوس على النقط للتقليب
+                clickable: true,
             },
+        });
+
+        // ===== منطق الصوت: يشتغل 3 ثواني بس =====
+        const welcomeAudio = document.getElementById("welcomeAudio");
+        
+        function playAudioFor3Seconds() {
+            welcomeAudio.currentTime = 0;
+            welcomeAudio.play().catch(error => {
+                console.log("الصوت مش قادر يشتغل:", error);
+            });
+            
+            setTimeout(function() {
+                welcomeAudio.pause();
+                welcomeAudio.currentTime = 0;
+            }, 3000);
+        }
+        
+        // أول ما الصفحة تفتح، نشغل الصوت لمدة 3 ثواني
+        window.addEventListener("load", function() {
+            playAudioFor3Seconds();
         });
     </script>
 </body>

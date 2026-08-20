@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>معاك | قطار العاصمة</title>
+    
+    <!-- أيقونة الموقع في المتصفح -->
+    <link rel="icon" type="image/jpeg" href="icon.jpeg">
+    
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -15,11 +19,10 @@
         .brand { text-align: center; margin-bottom: 25px; width: 100%; max-width: 450px; }
         
         .moving-icon-container {
-            width: 160px; /* مساحة حركة القطار */
+            width: 160px;
             height: 60px;
             margin: 0 auto 5px auto;
             position: relative;
-            /* شلنا overflow: hidden خالص عشان ميعملش تأثير الحفرة أو النفق */
         }
 
         .moving-icon {
@@ -27,31 +30,21 @@
             color: var(--primary);
             position: absolute;
             bottom: -5px; 
-            /* لفة كاملة مدتها 5 ثواني وتتكرر */
             animation: driveHideLoop 5s linear infinite;
         }
 
         @keyframes driveHideLoop {
-            /* واقف في اليمين وظاهر */
             0%, 30% { right: 0px; opacity: 1; } 
-            
-            /* يوصل لأقصى الشمال (جوه المساحة) ولسه ظاهر */
             70% { right: 110px; opacity: 1; } 
-            
-            /* يختفي فجأة وهو في مكانه في الشمال من غير ما يدخل في حيطة */
             71%, 82% { right: 110px; opacity: 0; } 
-            
-            /* يتنقل لليمين وهو مخفي */
             83% { right: 0px; opacity: 0; } 
-            
-            /* يظهر فجأة مكانه في اليمين ويستعد لدورة جديدة */
             84%, 100% { right: 0px; opacity: 1; } 
         }
 
         .brand h1 { font-size: 40px; font-weight: 900; color: var(--primary); margin-bottom: 2px; }
         .brand p { font-size: 14px; color: var(--text); opacity: 0.7; }
 
-        /* ================= السكة الحديد (لشاشة التحميل) ================= */
+        /* ================= السكة الحديد ================= */
         .realistic-track-container {
             width: 100%;
             height: 50px;
@@ -70,7 +63,6 @@
                 repeating-linear-gradient(to right, transparent, transparent 15px, #475569 15px, #475569 20px);
         }
 
-        /* ================= القطار الواقعي (يظهر وقت التحميل فقط) ================= */
         .lrt-train {
             display: flex;
             align-items: flex-end;
@@ -139,8 +131,6 @@
 
         @keyframes moveFast { 0% { right: -180px; } 100% { right: 100%; } }
 
-        /* ======================================================== */
-
         .main-card { background: var(--card); border-radius: 20px; padding: 25px; width: 100%; max-width: 450px; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         .input-group { margin-bottom: 20px; }
         select { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-family: 'Cairo'; font-size: 16px; outline: none; }
@@ -160,7 +150,6 @@
 
     <div class="brand">
         <div class="moving-icon-container">
-            <!-- الأيقونة هتتبخر وتظهر من غير أي حفر -->
             <div class="moving-icon">🚈</div>
         </div>
         <h1>معاك</h1>
@@ -204,7 +193,37 @@
         <button class="btn-retry" onclick="reset()">محاولة أخرى</button>
     </div>
 
+    <!-- عنصر الصوت -->
+    <audio id="welcomeAudio" preload="auto">
+        <source src="welcome.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
+        // ===== منطق الصوت: يشتغل 3 ثواني بس =====
+        const welcomeAudio = document.getElementById("welcomeAudio");
+        
+        function playAudioFor3Seconds() {
+            welcomeAudio.currentTime = 0;
+            welcomeAudio.play().catch(error => {
+                console.log("الصوت مش قادر يشتغل:", error);
+            });
+            
+            setTimeout(function() {
+                welcomeAudio.pause();
+                welcomeAudio.currentTime = 0;
+            }, 3000);
+        }
+        
+        // أول ما الصفحة تفتح، نشغل الصوت لمدة 3 ثواني
+        window.addEventListener("load", function() {
+            playAudioFor3Seconds();
+        });
+        
+        // لو المستخدم ضغط على أي حتة، نشغل الصوت 3 ثواني تاني
+        document.addEventListener("click", function() {
+            playAudioFor3Seconds();
+        });
+
         let trainData = null;
         let allStations = [];
 
