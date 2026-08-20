@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواصلاتي | دليل مواقف السفر</title>
+    
+    <!-- أيقونة الموقع في المتصفح -->
+    <link rel="icon" type="image/jpeg" href="icon.jpeg">
+    
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -42,6 +46,7 @@
             margin-bottom: 30px;
             transition: all 0.3s;
             font-weight: 600;
+            cursor: pointer;
         }
         .back-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateX(5px); }
 
@@ -56,7 +61,6 @@
         .title { font-size: 35px; font-weight: 900; color: var(--primary); margin-bottom: 5px; }
         .subtitle { font-size: 18px; color: #94a3b8; }
 
-        /* تصميم الخطوات زي المترو */
         .step-container {
             background: var(--card);
             border-radius: 20px;
@@ -183,7 +187,7 @@
             </div>
         </div>
 
-        <!-- الخطوة التانية: عايز تروح فين؟ (مخفية في البداية) -->
+        <!-- الخطوة التانية: عايز تروح فين؟ -->
         <div class="step-container" id="step2" style="display: none;">
             <div class="step-title">
                 <div class="step-number">2</div>
@@ -206,10 +210,40 @@
         </div>
     </div>
 
+    <!-- عنصر الصوت -->
+    <audio id="welcomeAudio" preload="auto">
+        <source src="welcome.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
+        // ===== منطق الصوت: يشتغل 3 ثواني بس =====
+        const welcomeAudio = document.getElementById("welcomeAudio");
+        
+        function playAudioFor3Seconds() {
+            welcomeAudio.currentTime = 0; // نبدأ من الأول
+            welcomeAudio.play().catch(error => {
+                console.log("الصوت مش قادر يشتغل:", error);
+            });
+            
+            // بعد 3 ثواني، نوقف الصوت
+            setTimeout(function() {
+                welcomeAudio.pause();
+                welcomeAudio.currentTime = 0; // نرجع لأول الصوت
+            }, 3000); // 3000ms = 3 ثواني
+        }
+        
+        // أول ما الصفحة تفتح، نشغل الصوت لمدة 3 ثواني
+        window.addEventListener("load", function() {
+            playAudioFor3Seconds();
+        });
+        
+        // كمان لو المستخدم ضغط على أي حتة في الصفحة، نشغل الصوت 3 ثواني
+        document.addEventListener("click", function() {
+            playAudioFor3Seconds();
+        });
+
         let transportData = {};
 
-        // جلب البيانات من JSON
         fetch('mawqef.json')
             .then(response => response.json())
             .then(data => {
@@ -221,24 +255,20 @@
                 document.getElementById('originSelect').innerHTML = '<option value="">حدث خطأ في التحميل</option>';
             });
 
-        // 1. تعبئة قائمة الانطلاق (أنت فين؟)
         function populateOrigins() {
             const originSelect = document.getElementById('originSelect');
             originSelect.innerHTML = '<option value="">-- اختار محافظتك الحالية --</option>';
             
-            // نجيب أسماء المحافظات اللي جوه "origins"
             for (let origin in transportData) {
                 originSelect.innerHTML += `<option value="${origin}">${origin}</option>`;
             }
         }
 
-        // 2. لما يختار نقطة الانطلاق
         document.getElementById('originSelect').addEventListener('change', function() {
             const step2 = document.getElementById('step2');
             const destSelect = document.getElementById('destinationSelect');
             const resultsContainer = document.getElementById('resultsContainer');
             
-            // نخفي النتيجة القديمة لو موجودة
             resultsContainer.style.display = 'none';
 
             if (this.value === "") {
@@ -246,7 +276,6 @@
                 return;
             }
 
-            // نملا قائمة الوجهات بناءً على المكان اللي اختاره
             const availableDestinations = transportData[this.value];
             destSelect.innerHTML = '<option value="">-- اختار المحافظة اللي رايحها --</option>';
             
@@ -254,12 +283,10 @@
                 destSelect.innerHTML += `<option value="${dest}">${dest}</option>`;
             }
 
-            // نظهر الخطوة التانية وننزل الشاشة ليها سموث
             step2.style.display = 'block';
             step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
-        // 3. لما يختار الوجهة
         document.getElementById('destinationSelect').addEventListener('change', function() {
             const origin = document.getElementById('originSelect').value;
             const destination = this.value;
@@ -272,13 +299,11 @@
                 return;
             }
 
-            // نجيب المواقف المخصصة للرحلة دي
             const stations = transportData[origin][destination];
             
             title.innerHTML = `المواقف المتاحة للسفر من ( ${origin} ) إلى ( ${destination} ):`;
             stationsList.innerHTML = '';
 
-            // نرسم كروت المواقف
             stations.forEach(station => {
                 const mapQuery = encodeURIComponent(station.name + " " + origin);
                 const mapUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
@@ -299,7 +324,6 @@
                 `;
             });
 
-            // نظهر النتيجة وننزل الشاشة ليها
             container.style.display = "block";
             container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
