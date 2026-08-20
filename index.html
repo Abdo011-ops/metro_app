@@ -2,10 +2,16 @@
 <html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>دليلك | المنصة الشاملة للمواصلات</title>
+    
+    <!-- الخطوط والأيقونات -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- مكتبة السلاسة (Swiper CSS) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
     <style>
         :root {
             --bg: #0f172a;
@@ -21,6 +27,9 @@
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
+            /* منع تحديد النص بالغلط أثناء السحب */
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         body {
@@ -32,32 +41,18 @@
             justify-content: center;
             color: var(--text);
             padding: 15px;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
-            pointer-events: none;
+            overflow: hidden;
         }
 
         .container {
-            max-width: 500px;
             width: 100%;
+            max-width: 600px;
             text-align: center;
             position: relative;
             z-index: 1;
         }
 
-        /* العنوان */
+        /* تنسيق العنوان */
         .header-title {
             font-size: 42px;
             font-weight: 900;
@@ -83,214 +78,141 @@
             line-height: 1.5;
         }
 
-        /* حاوية السلايدر (عشان الأسهم) */
-        .carousel-wrapper {
-            position: relative;
+        /* إعدادات مساحة السحب */
+        .swiper {
             width: 100%;
-            display: flex;
-            align-items: center;
+            padding-bottom: 40px; /* مساحة للنقط اللي تحت */
         }
 
-        /* شبكة الكروت (السلايدر) */
-        .services-grid {
-            display: flex;
-            flex-direction: row;
-            gap: 12px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory; /* عشان الكارت يثبت في مكانه بنعومة */
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; /* لدعم السحب على الآيفون */
-            padding: 15px 5px;
-            width: 100%;
-            /* إخفاء شريط التمرير */
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .services-grid::-webkit-scrollbar {
-            display: none;
+        .swiper-slide {
+            width: 160px; /* عرض الكارت الواحد في الموبايل */
+            height: auto;
         }
 
+        /* تصميم الكارت */
         .service-card {
-            /* الحسبة دي بتخلي الكارت ياخد نص الشاشة ناقص مسافة الفراغ، فيظهر كارتين بس */
-            flex: 0 0 calc(50% - 6px);
-            scroll-snap-align: center; /* بيخلي الكارت يقف في النص لما تسحب */
             background: var(--card);
             border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 20px 12px;
+            border-radius: 20px;
+            padding: 25px 15px;
             text-decoration: none;
             color: var(--text);
-            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
-            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            height: 100%;
+            transition: transform 0.2s;
         }
 
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--hover));
-            opacity: 0;
-            transition: opacity 0.3s;
+        .service-card:active {
+            transform: scale(0.95);
+            border-color: var(--primary);
         }
-
-        .service-card:active { transform: scale(0.95); }
-        .service-card:hover::before,
-        .service-card:active::before { opacity: 1; }
 
         .service-icon {
             font-size: 45px;
-            margin-bottom: 10px;
-            transition: transform 0.3s;
+            margin-bottom: 12px;
+            color: var(--text);
         }
 
-        .service-card:active .service-icon { transform: scale(1.1); }
-        
         .service-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 5px;
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            white-space: nowrap;
         }
 
         .service-desc {
             font-size: 11px;
             color: var(--muted);
-            line-height: 1.5;
+            line-height: 1.4;
+            white-space: normal;
         }
 
-        /* أزرار الأسهم يمين وشمال */
-        .scroll-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(30, 41, 59, 0.9);
-            border: 1px solid var(--primary);
-            color: var(--text);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        /* تنسيق النقط اللي تحت السلايدر */
+        .swiper-pagination-bullet {
+            background: var(--muted);
+            opacity: 0.5;
+            width: 10px;
+            height: 10px;
             transition: all 0.3s;
         }
-        .scroll-btn:hover, .scroll-btn:active {
+        .swiper-pagination-bullet-active {
             background: var(--primary);
-            color: white;
-        }
-        
-        /* تظبيط أماكن الأسهم */
-        .right-btn { right: -10px; }
-        .left-btn { left: -10px; }
-
-        @media (min-width: 600px) {
-            .container { max-width: 600px; }
-            .header-title { font-size: 50px; }
-            .header-title-2 { font-size: 32px; }
-            .service-card { padding: 30px 20px; border-radius: 20px; }
-            .service-icon { font-size: 60px; }
-            .service-title { font-size: 22px; }
-            .service-desc { font-size: 13px; }
-            .right-btn { right: -25px; width: 45px; height: 45px; }
-            .left-btn { left: -25px; width: 45px; height: 45px; }
+            opacity: 1;
+            width: 25px;
+            border-radius: 5px;
         }
 
-        @media (max-width: 350px) {
-            .header-title { font-size: 32px; }
-            .header-title-2 { font-size: 22px; }
-            .service-icon { font-size: 35px; }
-            .service-title { font-size: 15px; }
-            .scroll-btn { width: 30px; height: 30px; }
-        }
-
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg: #f8fafc;
-                --card: #ffffff;
-                --text: #1e293b;
-                --muted: #64748b;
-                --border: #e2e8f0;
-            }
-            body { background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); }
-            .scroll-btn { background: white; color: var(--primary); }
+        /* للشاشات الأكبر شوية */
+        @media (min-width: 400px) {
+            .swiper-slide { width: 180px; }
+            .service-title { font-size: 18px; }
+            .service-desc { font-size: 12px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- العنوان -->
         <h1 class="header-title">معاك</h1>
         <h2 class="header-title-2">في أي طريق</h2>
-        <p class="header-subtitle">اختار الخدمة اللي بتدور عليها وهنوصلك في أسرع وقت</p>
+        <p class="header-subtitle">اسحب الشاشة واختار الخدمة اللي بتدور عليها</p>
 
-        <!-- حاوية السلايدر والأسهم -->
-        <div class="carousel-wrapper">
-            
-            <!-- زر اليمين -->
-            <div class="scroll-btn right-btn" onclick="scrollCards(1)">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-
-            <!-- الكروت -->
-            <div class="services-grid" id="cardsContainer">
+        <!-- منطقة السحب (Swiper) -->
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
                 
                 <!-- 1. كارت المترو -->
-                <a href="metro.html" class="service-card">
-                    <div class="service-icon">🚇</div>
-                    <h3 class="service-title">دليل المترو</h3>
-                    <p class="service-desc">اعرف محطتك واحسب تذكرتك</p>
-                </a>
+                <div class="swiper-slide">
+                    <a href="metro.html" class="service-card">
+                        <div class="service-icon">🚇</div>
+                        <h3 class="service-title">دليل المترو</h3>
+                        <p class="service-desc">اعرف محطتك واحسب تذكرتك</p>
+                    </a>
+                </div>
 
                 <!-- 2. كارت المواصلات -->
-                <a href="transport.html" class="service-card">
-                    <div class="service-icon">🚌</div>
-                    <h3 class="service-title">مواصلاتي</h3>
-                    <p class="service-desc">دليلك لمواقف السفر</p>
-                </a>
+                <div class="swiper-slide">
+                    <a href="transport.html" class="service-card">
+                        <div class="service-icon">🚌</div>
+                        <h3 class="service-title">مواصلاتي</h3>
+                        <p class="service-desc">دليلك لمعرفة مواقف السفر</p>
+                    </a>
+                </div>
 
                 <!-- 3. كارت قطار العاصمة -->
-                <a href="capital-train.html" class="service-card">
-                    <div class="service-icon">🚈</div>
-                    <h3 class="service-title">قطار العاصمة</h3>
-                    <p class="service-desc">محطات القطار الكهربائي (LRT)</p>
-                </a>
+                <div class="swiper-slide">
+                    <a href="capital-train.html" class="service-card">
+                        <div class="service-icon">🚈</div>
+                        <h3 class="service-title">قطار العاصمة</h3>
+                        <p class="service-desc">محطات القطار الكهربائي LRT</p>
+                    </a>
+                </div>
 
             </div>
-
-            <!-- زر الشمال -->
-            <div class="scroll-btn left-btn" onclick="scrollCards(-1)">
-                <i class="fas fa-chevron-left"></i>
-            </div>
-
+            
+            <!-- النقط السفلية -->
+            <div class="swiper-pagination"></div>
         </div>
     </div>
 
-    <!-- كود الجافا سكريبت لتشغيل الأسهم -->
+    <!-- ملفات الجافاسكريبت بتاعة السلاسة (Swiper JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        function scrollCards(direction) {
-            const container = document.getElementById('cardsContainer');
-            // بنحسب عرض الكارت الواحد عشان نعمل سكرول بمقدار كارت كارت
-            const cardWidth = container.querySelector('.service-card').offsetWidth + 12; 
-            
-            // في اللغة العربية (RTL) الاتجاهات بتكون معكوسة
-            if (direction === 1) {
-                container.scrollBy({ left: cardWidth, behavior: 'smooth' }); // يمين
-            } else {
-                container.scrollBy({ left: -cardWidth, behavior: 'smooth' }); // شمال
-            }
-        }
+        // كود تشغيل السحب وضبط إعداداته
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: "auto", // بيخلي عرض الكارت يتضبط أوتوماتيك زي ما حددناه في الـ CSS
+            spaceBetween: 15,      // المسافة بين الكروت
+            grabCursor: true,      // بيغير شكل الماوس لـ "إيد بتمسك" لو فاتح من كمبيوتر
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,   // يخلي المستخدم يقدر يدوس على النقط للتقليب
+            },
+        });
     </script>
 </body>
 </html>
