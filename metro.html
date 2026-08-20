@@ -189,58 +189,6 @@
         .route-stat-label { font-size: 12px; color: var(--muted); margin-top: 5px; }
         .route-stat.time .route-stat-value { color: var(--warning); }
         .route-stat.price .route-stat-value { color: var(--price); }
-        
-        /* ===== مربع الاتجاه الجديد ===== */
-        .direction-info-box {
-            margin: 20px 0;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(6, 182, 212, 0.05));
-            border: 2px solid var(--info);
-            border-radius: 15px;
-            text-align: center;
-        }
-        .direction-info-box .direction-icon {
-            font-size: 35px;
-            margin-bottom: 10px;
-        }
-        .direction-info-box .direction-label {
-            font-size: 14px;
-            color: var(--muted);
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        .direction-info-box .direction-value {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--info);
-            background: rgba(6, 182, 212, 0.15);
-            padding: 12px;
-            border-radius: 12px;
-            display: inline-block;
-            margin: 5px;
-        }
-        .direction-info-box .direction-arrow-icon {
-            color: var(--info);
-            font-size: 22px;
-            margin: 0 10px;
-        }
-        .direction-info-box .direction-line-badge {
-            display: inline-block;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 14px;
-            color: white;
-            margin: 5px;
-        }
-        .direction-info-box .direction-separator {
-            margin: 15px 0;
-            color: var(--muted);
-            font-weight: 700;
-            font-size: 14px;
-        }
-        /* ===== نهاية مربع الاتجاه ===== */
-        
         .stations-list { margin: 20px 0; padding: 20px; background: var(--bg); border-radius: 15px; }
         .stations-list-title { font-weight: 700; margin-bottom: 15px; color: var(--primary); }
         .stations-text { line-height: 2.5; font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -648,14 +596,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- مربع الاتجاه الجديد - يظهر هنا -->
-                <div class="direction-info-box" id="directionInfoBox" style="display: none;">
-                    <div class="direction-icon"><i class="fas fa-compass"></i></div>
-                    <div class="direction-label">اتجاه الرحلة</div>
-                    <div id="directionContent"></div>
-                </div>
-                
                 <div class="stations-list">
                     <div class="stations-list-title"><i class="fas fa-list"></i> المحطات التي ستمر بها:</div>
                     <div class="stations-text" id="stationsText"></div>
@@ -1005,18 +945,7 @@
                     for (let i = si; i !== ei + step; i += step) {
                         path.push({ name: stations[i], line: commonLine, isTransfer: transferStations[stations[i]] ? true : false });
                     }
-                    // حساب الاتجاه
-                    const direction = si < ei ? stations[stations.length - 1] : stations[0];
-                    return { 
-                        path, 
-                        transfers: [], 
-                        lines: [commonLine],
-                        directions: [{
-                            line: commonLine,
-                            direction: direction,
-                            fromStation: startStation
-                        }]
-                    };
+                    return { path, transfers: [], lines: [commonLine] };
                 }
             }
             
@@ -1048,23 +977,7 @@
                     path.push({ name: secondStations[i], line: secondLine, isTransfer: transferStations[secondStations[i]] ? true : false });
                 }
                 
-                const route = { 
-                    path, 
-                    transfers: [transferStation], 
-                    lines: [firstLine, secondLine],
-                    directions: [
-                        {
-                            line: firstLine,
-                            direction: startIdx < transferIdx ? firstStations[firstStations.length - 1] : firstStations[0],
-                            fromStation: startStation
-                        },
-                        {
-                            line: secondLine,
-                            direction: transferIdx2 < endIdx ? secondStations[secondStations.length - 1] : secondStations[0],
-                            fromStation: transferStation
-                        }
-                    ]
-                };
+                const route = { path, transfers: [transferStation], lines: [firstLine, secondLine] };
                 if (!bestRoute || path.length < bestRoute.path.length) bestRoute = route;
             }
             return bestRoute;
@@ -1097,35 +1010,6 @@
             
             displayStationsText(route.path);
             displayJourneyPath(route);
-            displayDirectionInfo(route);
-        }
-
-        function displayDirectionInfo(route) {
-            const directionBox = document.getElementById("directionInfoBox");
-            const directionContent = document.getElementById("directionContent");
-            
-            if (route.directions && route.directions.length > 0) {
-                directionBox.style.display = "block";
-                let html = "";
-                
-                route.directions.forEach((dir, index) => {
-                    if (index > 0) {
-                        html += `<div class="direction-separator">⬇️ بعد التبديل ⬇️</div>`;
-                    }
-                    html += `
-                        <div class="direction-line-badge" style="background: ${lines[dir.line].color};">
-                            ${lines[dir.line].name}
-                        </div>
-                        <span class="direction-arrow-icon"><i class="fas fa-arrow-left"></i></span>
-                        <div class="direction-value">🎯 اركب اتجاه: ${dir.direction}</div>
-                        <br>
-                    `;
-                });
-                
-                directionContent.innerHTML = html;
-            } else {
-                directionBox.style.display = "none";
-            }
         }
 
         function displayStationsText(path) {
