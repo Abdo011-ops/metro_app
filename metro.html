@@ -23,6 +23,7 @@
             --price: #f59e0b;
             --success: #10b981;
             --info: #06b6d4;
+            --danger: #ef4444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,15 +32,15 @@
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
             color: var(--text);
         }
 
         .container { max-width: 800px; margin: auto; }
 
-        .header { text-align: center; margin-bottom: 40px; }
+        .header { text-align: center; margin-bottom: 20px; }
 
-        .logo { font-size: 60px; margin-bottom: 15px; animation: float 3s ease-in-out infinite; }
+        .logo { font-size: 40px; margin-bottom: 8px; animation: float 3s ease-in-out infinite; }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
@@ -47,37 +48,37 @@
         }
 
         .title {
-            font-size: 40px;
+            font-size: 32px;
             font-weight: 900;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .subtitle { font-size: 20px; font-weight: 700; color: var(--text); }
+        .subtitle { font-size: 16px; font-weight: 700; color: var(--text); }
 
         .step-container {
             background: var(--card);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
             border: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .step-title {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .step-number {
-            width: 35px;
-            height: 35px;
+            width: 28px;
+            height: 28px;
             background: var(--primary);
             border-radius: 50%;
             display: flex;
@@ -85,15 +86,16 @@
             justify-content: center;
             font-weight: 800;
             color: white;
+            font-size: 14px;
         }
 
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text); }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--text); font-size: 13px; }
 
         .search-btn-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .search-btn-container select { flex: 1; }
@@ -102,74 +104,74 @@
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
-            border-radius: 12px;
-            padding: 15px 20px;
+            border-radius: 10px;
+            padding: 10px 15px;
             font-family: 'Cairo', sans-serif;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
             white-space: nowrap;
-            min-width: 170px;
+            min-width: 140px;
             justify-content: center;
         }
 
         .search-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
         }
 
-        .search-btn i { font-size: 16px; }
+        .search-btn i { font-size: 13px; }
 
         select {
             width: 100%;
-            padding: 15px;
+            padding: 10px;
             background: var(--bg);
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             color: var(--text);
             font-family: 'Cairo', sans-serif;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.3s;
         }
 
         select:focus { outline: none; border-color: var(--primary); }
-        select option { background: var(--card); color: var(--text); padding: 10px; }
+        select option { background: var(--card); color: var(--text); padding: 8px; }
 
         .btn {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             font-family: 'Cairo', sans-serif;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
-        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4); }
 
         .unknown-location {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 8px;
             color: var(--info);
             font-weight: 700;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 12px;
             transition: all 0.3s;
-            padding: 12px;
+            padding: 8px;
             border: 2px dashed var(--info);
-            border-radius: 12px;
+            border-radius: 10px;
             background: rgba(6, 182, 212, 0.05);
         }
         .unknown-location:hover {
@@ -180,106 +182,278 @@
         }
 
         .result-container { display: none; }
-        .result-card { background: var(--card); border-radius: 20px; padding: 30px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .route-summary { text-align: center; margin-bottom: 30px; padding: 20px; background: var(--bg); border-radius: 15px; }
-        .route-from-to { font-size: 24px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 15px; }
-        .route-stats { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .route-stat { text-align: center; padding: 15px 20px; background: var(--card); border-radius: 12px; min-width: 110px; }
-        .route-stat-value { font-size: 28px; font-weight: 800; color: var(--primary); }
-        .route-stat-label { font-size: 12px; color: var(--muted); margin-top: 5px; }
+        .result-card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .route-summary { text-align: center; margin-bottom: 20px; padding: 15px; background: var(--bg); border-radius: 12px; }
+        .route-from-to { font-size: 18px; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        
+        .route-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        .route-stat {
+            text-align: center;
+            padding: 10px 5px;
+            background: var(--card);
+            border-radius: 10px;
+            min-width: 0;
+        }
+        .route-stat-value { font-size: 18px; font-weight: 800; color: var(--primary); }
+        .route-stat-label { font-size: 9px; color: var(--muted); margin-top: 3px; }
         .route-stat.time .route-stat-value { color: var(--warning); }
         .route-stat.price .route-stat-value { color: var(--price); }
         
-        /* ===== مربع الاتجاه الجديد ===== */
-        .direction-info-box {
-            margin: 20px 0;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(6, 182, 212, 0.05));
-            border: 2px solid var(--info);
-            border-radius: 15px;
-            text-align: center;
-        }
-        .direction-info-box .direction-icon {
-            font-size: 35px;
-            margin-bottom: 10px;
-        }
-        .direction-info-box .direction-label {
-            font-size: 14px;
-            color: var(--muted);
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        .direction-info-box .direction-value {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--info);
-            background: rgba(6, 182, 212, 0.15);
-            padding: 12px;
-            border-radius: 12px;
-            display: inline-block;
-            margin: 5px;
-        }
-        .direction-info-box .direction-arrow-icon {
-            color: var(--info);
-            font-size: 22px;
-            margin: 0 10px;
-        }
-        .direction-info-box .direction-line-badge {
-            display: inline-block;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 14px;
-            color: white;
-            margin: 5px;
-        }
-        .direction-info-box .direction-separator {
+        .routes-info-box {
             margin: 15px 0;
-            color: var(--muted);
+            padding: 15px;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+        .routes-info-title {
             font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
             font-size: 14px;
         }
-        /* ===== نهاية مربع الاتجاه ===== */
+        .directions-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .direction-item {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            font-size: 11px;
+        }
+        .direction-item .direction-icon-small {
+            color: var(--info);
+            font-size: 12px;
+        }
+        .direction-item .direction-label-small {
+            font-weight: 700;
+            color: var(--info);
+            font-size: 11px;
+        }
+        .direction-item .direction-text-small {
+            color: var(--text);
+            font-weight: 600;
+            font-size: 11px;
+        }
+        .direction-item .direction-line-name {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 10px;
+            color: white;
+        }
         
-        .stations-list { margin: 20px 0; padding: 20px; background: var(--bg); border-radius: 15px; }
-        .stations-list-title { font-weight: 700; margin-bottom: 15px; color: var(--primary); }
-        .stations-text { line-height: 2.5; font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-        .station-highlight { color: var(--text); font-weight: 700; background: var(--card); padding: 5px 10px; border-radius: 8px; border: 1px solid var(--border); }
-        .transfer-highlight { color: var(--multi); font-weight: 800; background: rgba(139, 92, 246, 0.1); padding: 5px 10px; border-radius: 8px; border: 2px solid var(--multi); }
-        .arrow-separator { color: var(--muted); font-size: 12px; }
-        .journey-path { position: relative; padding-right: 40px; margin-top: 20px; }
-        .journey-path::before { content: ''; position: absolute; right: 15px; top: 0; bottom: 0; width: 3px; background: var(--border); }
-        .station-stop { position: relative; margin-bottom: 15px; padding: 15px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
-        .station-stop::before { content: ''; position: absolute; right: -32px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background: var(--primary); border-radius: 50%; border: 3px solid var(--card); }
+        .journey-path { position: relative; padding-right: 30px; margin-top: 15px; }
+        .journey-path::before { content: ''; position: absolute; right: 12px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+        .station-stop { position: relative; margin-bottom: 10px; padding: 10px; background: var(--bg); border-radius: 10px; border: 1px solid var(--border); }
+        .station-stop::before { content: ''; position: absolute; right: -24px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: var(--primary); border-radius: 50%; border: 2px solid var(--card); }
         .station-stop.transfer::before { background: var(--multi); }
-        .station-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .station-name { font-weight: 700; font-size: 16px; }
-        .station-time { font-size: 12px; color: var(--muted); font-weight: 600; }
-        .station-line-badge { display: inline-block; padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: 600; color: white; margin-top: 5px; }
+        .station-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+        .station-name { font-weight: 700; font-size: 13px; }
+        .station-time { font-size: 10px; color: var(--muted); font-weight: 600; }
+        
+        .station-line-badges {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 3px;
+        }
+        .station-line-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; color: white; }
         .badge-line1 { background: var(--line1); }
         .badge-line2 { background: var(--line2); }
         .badge-line3 { background: var(--line3); }
-        .transfer-box { background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)); border: 3px solid var(--multi); border-radius: 15px; padding: 20px; margin: 25px 0; text-align: center; }
-        .transfer-box .transfer-icon { font-size: 40px; color: var(--multi); margin-bottom: 10px; }
-        .transfer-box .transfer-title { font-size: 18px; font-weight: 800; color: var(--multi); margin-bottom: 15px; }
-        .transfer-box .transfer-station-name { font-size: 28px; font-weight: 900; color: white; margin-bottom: 10px; background: rgba(139, 92, 246, 0.2); padding: 12px; border-radius: 12px; }
-        .transfer-box .transfer-info { font-size: 15px; color: var(--text); margin-bottom: 15px; font-weight: 600; }
-        .transfer-box .transfer-lines { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-        .transfer-box .transfer-line-badge { padding: 8px 18px; border-radius: 20px; font-weight: 700; font-size: 14px; color: white; }
-        .transfer-box .transfer-arrow { color: var(--multi); font-size: 24px; }
+        
+        .transfer-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+            border: 3px solid var(--multi);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.2);
+        }
+        .transfer-box .transfer-icon {
+            font-size: 40px;
+            color: var(--multi);
+            margin-bottom: 10px;
+        }
+        .transfer-box .transfer-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--multi);
+            margin-bottom: 12px;
+        }
+        .transfer-box .transfer-station-name {
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 10px;
+            background: rgba(139, 92, 246, 0.2);
+            padding: 10px;
+            border-radius: 12px;
+        }
+        .transfer-box .transfer-info {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .transfer-box .transfer-lines {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .transfer-box .transfer-line-badge {
+            padding: 6px 15px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 13px;
+            color: white;
+        }
+        .transfer-box .transfer-arrow {
+            color: var(--multi);
+            font-size: 20px;
+        }
         .transfer-box .transfer-direction-hint {
             display: inline-block;
             margin: 10px 0;
-            padding: 12px 20px;
+            padding: 10px 18px;
             background: rgba(16, 185, 129, 0.15);
             border: 2px solid var(--success);
-            border-radius: 12px;
+            border-radius: 10px;
             color: var(--success);
             font-weight: 800;
-            font-size: 16px;
-            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.1);
+            font-size: 14px;
+            box-shadow: 0 3px 8px rgba(16, 185, 129, 0.1);
         }
-        .transfer-box .transfer-wait-time { display: inline-block; margin-top: 10px; padding: 10px 20px; background: rgba(245, 158, 11, 0.1); border: 2px solid var(--warning); border-radius: 10px; color: var(--warning); font-weight: 700; font-size: 15px; }
+        .transfer-box .transfer-wait-time {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid var(--warning);
+            border-radius: 8px;
+            color: var(--warning);
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        /* ===== نافذة التنبيه المخصصة ===== */
+        .custom-alert-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .custom-alert-overlay.active { display: flex; }
+
+        .custom-alert-box {
+            background: var(--card);
+            border: 2px solid var(--danger);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(239, 68, 68, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .custom-alert-box.warning {
+            border-color: var(--warning);
+            box-shadow: 0 20px 60px rgba(245, 158, 11, 0.3);
+        }
+
+        .custom-alert-box .alert-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .custom-alert-box .alert-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--danger);
+        }
+
+        .custom-alert-box.warning .alert-title {
+            color: var(--warning);
+        }
+
+        .custom-alert-box .alert-message {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .custom-alert-box .alert-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--danger);
+            color: white;
+        }
+
+        .custom-alert-box.warning .alert-btn {
+            background: var(--warning);
+        }
+
+        .custom-alert-box .alert-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+        }
+
+        .custom-alert-box.warning .alert-btn:hover {
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+        }
+        /* ===== نهاية نافذة التنبيه ===== */
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
 
         /* ===== نافذة البحث الاحترافية ===== */
         .search-modal-overlay {
@@ -299,16 +473,11 @@
 
         .search-modal-overlay.active { display: flex; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         .search-modal {
             background: var(--card);
             border: 2px solid var(--primary);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 15px;
+            padding: 20px;
             width: 90%;
             max-width: 400px;
             text-align: center;
@@ -316,24 +485,19 @@
             animation: slideUp 0.3s ease;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .search-modal .modal-icon { font-size: 50px; margin-bottom: 15px; }
-        .search-modal .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: var(--text); }
-        .search-modal .modal-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+        .search-modal .modal-icon { font-size: 40px; margin-bottom: 10px; }
+        .search-modal .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--text); }
+        .search-modal .modal-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 15px; }
         .search-modal .modal-input {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             background: var(--bg);
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             color: var(--text);
             font-family: 'Cairo', sans-serif;
-            font-size: 16px;
-            margin-bottom: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
             transition: all 0.3s;
         }
         .search-modal .modal-input:focus {
@@ -341,36 +505,36 @@
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
-        .search-modal .modal-buttons { display: flex; gap: 10px; }
+        .search-modal .modal-buttons { display: flex; gap: 8px; }
         .search-modal .modal-btn {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-family: 'Cairo', sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 5px;
         }
         .search-modal .modal-btn-search { background: linear-gradient(135deg, #10b981, #059669); color: white; }
         .search-modal .modal-btn-search:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); }
         .search-modal .modal-btn-cancel { background: #334155; color: var(--text); }
         .search-modal .modal-btn-cancel:hover { background: #475569; }
-        .search-modal .modal-results { margin-top: 15px; max-height: 200px; overflow-y: auto; display: none; }
+        .search-modal .modal-results { margin-top: 10px; max-height: 150px; overflow-y: auto; display: none; }
         .search-modal .modal-result-item {
-            padding: 10px;
+            padding: 8px;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 8px;
             margin-bottom: 5px;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 14px;
+            font-size: 12px;
         }
         .search-modal .modal-result-item:hover { border-color: var(--primary); background: var(--card); }
         /* ===== نهاية نافذة البحث ===== */
@@ -396,8 +560,8 @@
         .location-modal {
             background: var(--card);
             border: 2px solid var(--info);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 15px;
+            padding: 20px;
             width: 90%;
             max-width: 400px;
             text-align: center;
@@ -406,35 +570,30 @@
         }
 
         .location-modal .location-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            font-size: 45px;
+            margin-bottom: 10px;
         }
 
         .location-modal .location-title {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 800;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: var(--text);
         }
 
         .location-modal .location-subtitle {
-            font-size: 14px;
+            font-size: 12px;
             color: var(--muted);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             line-height: 1.6;
         }
 
         .location-modal .location-status {
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
             display: none;
+            font-size: 13px;
         }
 
         .location-modal .location-status.loading {
@@ -463,10 +622,10 @@
 
         .location-modal .location-station-info {
             display: none;
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 15px;
+            padding: 10px;
             background: var(--bg);
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1px solid var(--border);
         }
 
@@ -476,39 +635,39 @@
         }
 
         .location-modal .station-detail-name {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 900;
             color: var(--success);
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .location-modal .station-detail-line {
-            font-size: 14px;
+            font-size: 12px;
             color: var(--muted);
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .location-modal .station-detail-distance {
-            font-size: 13px;
+            font-size: 11px;
             color: var(--info);
             font-weight: 700;
         }
 
-        .location-modal .location-buttons { display: flex; gap: 10px; }
+        .location-modal .location-buttons { display: flex; gap: 8px; }
         .location-modal .location-btn {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-family: 'Cairo', sans-serif;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 5px;
         }
         .location-modal .location-btn-confirm { background: linear-gradient(135deg, #10b981, #059669); color: white; }
         .location-modal .location-btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); }
@@ -523,11 +682,24 @@
             }
             .search-btn {
                 min-width: 100%;
-                padding: 12px;
-                font-size: 13px;
+                padding: 10px;
+                font-size: 11px;
             }
             .search-modal, .location-modal {
-                padding: 20px;
+                padding: 15px;
+            }
+            
+            .route-stats {
+                gap: 5px;
+            }
+            .route-stat {
+                padding: 8px 3px;
+            }
+            .route-stat-value {
+                font-size: 16px;
+            }
+            .route-stat-label {
+                font-size: 8px;
             }
         }
     </style>
@@ -632,15 +804,15 @@
                     <div class="route-stats">
                         <div class="route-stat">
                             <div class="route-stat-value" id="totalStops">0</div>
-                            <div class="route-stat-label">عدد المحطات</div>
+                            <div class="route-stat-label">محطات</div>
                         </div>
                         <div class="route-stat">
                             <div class="route-stat-value" id="totalTransfers">0</div>
-                            <div class="route-stat-label">التبديلات</div>
+                            <div class="route-stat-label">تبديلات</div>
                         </div>
                         <div class="route-stat time">
                             <div class="route-stat-value" id="totalTime">0</div>
-                            <div class="route-stat-label">دقيقة</div>
+                            <div class="route-stat-label">دقائق</div>
                         </div>
                         <div class="route-stat price">
                             <div class="route-stat-value" id="totalPrice">0</div>
@@ -649,22 +821,26 @@
                     </div>
                 </div>
                 
-                <!-- مربع الاتجاه الجديد - يظهر هنا -->
-                <div class="direction-info-box" id="directionInfoBox" style="display: none;">
-                    <div class="direction-icon"><i class="fas fa-compass"></i></div>
-                    <div class="direction-label">اتجاه الرحلة</div>
-                    <div id="directionContent"></div>
+                <div class="routes-info-box" id="routesInfoBox">
+                    <div class="routes-info-title"><i class="fas fa-route"></i> المسارات التي سأمر عليها:</div>
+                    <div class="directions-row" id="directionsRow"></div>
                 </div>
                 
-                <div class="stations-list">
-                    <div class="stations-list-title"><i class="fas fa-list"></i> المحطات التي ستمر بها:</div>
-                    <div class="stations-text" id="stationsText"></div>
-                </div>
                 <div class="journey-path" id="journeyPath"></div>
-                <button class="btn btn-primary" onclick="resetJourney()" style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="resetJourney()" style="margin-top: 15px;">
                     <i class="fas fa-redo"></i> رحلة جديدة
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- نافذة التنبيه المخصصة -->
+    <div class="custom-alert-overlay" id="customAlertOverlay">
+        <div class="custom-alert-box" id="customAlertBox">
+            <div class="alert-icon" id="alertIcon">⚠️</div>
+            <div class="alert-title" id="alertTitle">تنبيه</div>
+            <div class="alert-message" id="alertMessage"></div>
+            <button class="alert-btn" onclick="closeCustomAlert()">حسناً</button>
         </div>
     </div>
 
@@ -733,6 +909,42 @@
             { min: 17, max: 23, price: 15 },
             { min: 24, max: 50, price: 20 }
         ];
+
+        // ===== وظائف التنبيه المخصص =====
+        function showCustomAlert(message, type = 'error') {
+            const overlay = document.getElementById("customAlertOverlay");
+            const box = document.getElementById("customAlertBox");
+            const icon = document.getElementById("alertIcon");
+            const title = document.getElementById("alertTitle");
+            const msg = document.getElementById("alertMessage");
+            
+            if (type === 'warning') {
+                box.className = "custom-alert-box warning";
+                icon.textContent = "⚠️";
+                title.textContent = "تنبيه";
+            } else {
+                box.className = "custom-alert-box";
+                icon.textContent = "❌";
+                title.textContent = "خطأ";
+            }
+            
+            msg.textContent = message;
+            overlay.classList.add("active");
+        }
+
+        function closeCustomAlert() {
+            document.getElementById("customAlertOverlay").classList.remove("active");
+        }
+
+        document.getElementById("customAlertOverlay").addEventListener("click", function(e) {
+            if (e.target === this) closeCustomAlert();
+        });
+
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                closeCustomAlert();
+            }
+        });
 
         fetch('metro.json')
             .then(response => response.json())
@@ -825,7 +1037,10 @@
 
         function confirmSearch() {
             const searchTerm = document.getElementById("searchModalInput").value.trim();
-            if (!searchTerm) { alert("الرجاء كتابة اسم المحطة"); return; }
+            if (!searchTerm) {
+                showCustomAlert("الرجاء كتابة اسم المحطة أولاً! 🔍", "warning");
+                return;
+            }
             let foundStation = null;
             let foundLine = null;
             for (let lineKey in lines) {
@@ -841,18 +1056,19 @@
                     document.getElementById("step2").style.display = "none";
                     document.getElementById("step3").style.display = "block";
                     document.getElementById("destinationTitle").innerHTML = '<div class="step-number">2</div> اختار خط الوصول (إلى أين؟)';
-                    document.getElementById("step3").scrollIntoView({ behavior: "smooth" });
+                    document.getElementById("step3").scrollIntoView({ behavior: "smooth", block: "center" });
                 } else {
                     document.getElementById("endLine").value = foundLine;
                     populateStationSelect("endStation", foundLine);
                     document.getElementById("endStation").value = foundStation;
                     document.getElementById("step3").style.display = "none";
                     document.getElementById("step4").style.display = "block";
-                    document.getElementById("step4").scrollIntoView({ behavior: "smooth" });
+                    document.getElementById("step4").scrollIntoView({ behavior: "smooth", block: "center" });
                 }
                 closeSearchModal();
             } else {
-                alert("❌ مفيش محطة بالاسم ده. جرب تكتب اسم تاني.");
+                closeSearchModal();
+                showCustomAlert(`مفيش محطة بالاسم "${searchTerm}"! 😕\nجرب تكتب اسم تاني أو استخدم البحث الصوتي.`, "error");
             }
         }
 
@@ -938,7 +1154,7 @@
                 document.getElementById("step2").style.display = "none";
                 document.getElementById("step3").style.display = "block";
                 document.getElementById("destinationTitle").innerHTML = '<div class="step-number">2</div> اختار خط الوصول (إلى أين؟)';
-                document.getElementById("step3").scrollIntoView({ behavior: "smooth" });
+                document.getElementById("step3").scrollIntoView({ behavior: "smooth", block: "center" });
                 
                 closeLocationModal();
                 locatedStation = null;
@@ -954,6 +1170,7 @@
             if (e.key === "Escape") {
                 closeSearchModal();
                 closeLocationModal();
+                closeCustomAlert();
             }
             if (e.key === "Enter" && document.getElementById("searchModalOverlay").classList.contains("active")) {
                 confirmSearch();
@@ -1005,7 +1222,6 @@
                     for (let i = si; i !== ei + step; i += step) {
                         path.push({ name: stations[i], line: commonLine, isTransfer: transferStations[stations[i]] ? true : false });
                     }
-                    // حساب الاتجاه
                     const direction = si < ei ? stations[stations.length - 1] : stations[0];
                     return { 
                         path, 
@@ -1073,11 +1289,21 @@
         function calculateRoute() {
             const startStation = document.getElementById("startStation").value;
             const endStation = document.getElementById("endStation").value;
-            if (!startStation || !endStation) return alert("الرجاء اختيار المحطات");
-            if (startStation === endStation) return alert("المحطتان متطابقتان!");
+            if (!startStation || !endStation) {
+                showCustomAlert("الرجاء اختيار محطة البداية ومحطة الوصول! 📍", "warning");
+                return;
+            }
+            if (startStation === endStation) {
+                showCustomAlert(`إنت واقف في محطة "${startStation}" أصلًا! 😅\nما ينفعش تكون البداية والنهاية نفس المحطة.`, "warning");
+                return;
+            }
             const route = findRoute(startStation, endStation);
-            if (route) displayRoute(route, startStation, endStation);
-            else alert("لا يمكن حساب المسار");
+            if (route) {
+                displayRoute(route, startStation, endStation);
+                document.getElementById("resultContainer").scrollIntoView({ behavior: "smooth", block: "start" });
+            } else {
+                showCustomAlert("لا يمكن حساب المسار بين هاتين المحطتين! 🚫", "error");
+            }
         }
 
         function displayRoute(route, startStation, endStation) {
@@ -1095,46 +1321,36 @@
             document.getElementById("totalTime").textContent = totalStops * WAIT_TIME_PER_STATION;
             document.getElementById("totalPrice").textContent = calculatePrice(route.path.length);
             
-            displayStationsText(route.path);
             displayJourneyPath(route);
-            displayDirectionInfo(route);
+            displayDirectionsRow(route);
         }
 
-        function displayDirectionInfo(route) {
-            const directionBox = document.getElementById("directionInfoBox");
-            const directionContent = document.getElementById("directionContent");
+        function displayDirectionsRow(route) {
+            const directionsRow = document.getElementById("directionsRow");
             
             if (route.directions && route.directions.length > 0) {
-                directionBox.style.display = "block";
                 let html = "";
                 
                 route.directions.forEach((dir, index) => {
-                    if (index > 0) {
-                        html += `<div class="direction-separator">⬇️ بعد التبديل ⬇️</div>`;
-                    }
+                    const directionLabel = index === 0 ? "الاتجاه الأول" : "بعد التبديل";
+                    
                     html += `
-                        <div class="direction-line-badge" style="background: ${lines[dir.line].color};">
-                            ${lines[dir.line].name}
+                        <div class="direction-item">
+                            <i class="fas fa-compass direction-icon-small"></i>
+                            <span class="direction-label-small">${directionLabel}:</span>
+                            <span class="direction-line-name" style="background: ${lines[dir.line].color};">
+                                ${lines[dir.line].name}
+                            </span>
+                            <i class="fas fa-arrow-left" style="color: var(--info); font-size: 10px;"></i>
+                            <span class="direction-text-small">اتجاه ${dir.direction}</span>
                         </div>
-                        <span class="direction-arrow-icon"><i class="fas fa-arrow-left"></i></span>
-                        <div class="direction-value">🎯 اركب اتجاه: ${dir.direction}</div>
-                        <br>
                     `;
                 });
                 
-                directionContent.innerHTML = html;
+                directionsRow.innerHTML = html;
             } else {
-                directionBox.style.display = "none";
+                directionsRow.innerHTML = "";
             }
-        }
-
-        function displayStationsText(path) {
-            let html = "";
-            path.forEach((station, index) => {
-                html += station.isTransfer ? `<span class="transfer-highlight">🔄 ${station.name}</span>` : `<span class="station-highlight">${station.name}</span>`;
-                if (index < path.length - 1) html += '<span class="arrow-separator">←</span>';
-            });
-            document.getElementById("stationsText").innerHTML = html;
         }
 
         function displayJourneyPath(route) {
@@ -1146,7 +1362,20 @@
                 const div = document.createElement("div");
                 div.className = `station-stop ${station.isTransfer ? 'transfer' : ''}`;
                 const timeText = index === 0 ? 'البداية' : `${cumulativeTime} دقيقة`;
-                div.innerHTML = `<div class="station-header"><div class="station-name">${station.name}</div><div class="station-time">${timeText}</div></div><div class="station-line-badge badge-${station.line}">${lines[station.line].name}</div>`;
+                
+                const stationLines = getStationLines(station.name);
+                let lineBadgesHTML = '';
+                stationLines.forEach(lineKey => {
+                    lineBadgesHTML += `<span class="station-line-badge badge-${lineKey}">${lines[lineKey].name}</span>`;
+                });
+                
+                div.innerHTML = `
+                    <div class="station-header">
+                        <div class="station-name">${station.name}</div>
+                        <div class="station-time">${timeText}</div>
+                    </div>
+                    <div class="station-line-badges">${lineBadgesHTML}</div>
+                `;
                 el.appendChild(div);
                 
                 if (index < route.path.length - 1) {
@@ -1202,13 +1431,15 @@
             document.getElementById("endLine").value = "";
             document.getElementById("endStation").value = "";
             document.getElementById("destinationTitle").innerHTML = '<div class="step-number">2</div> اختار خط الوصول';
+            
+            window.scrollTo({ top: 0, behavior: "smooth" });
         }
 
         document.getElementById("startLine").addEventListener("change", function() {
             if (this.value) {
                 populateStationSelect("startStation", this.value);
                 document.getElementById("step2").style.display = "block";
-                document.getElementById("step2").scrollIntoView({ behavior: "smooth" });
+                document.getElementById("step2").scrollIntoView({ behavior: "smooth", block: "center" });
             } else { document.getElementById("step2").style.display = "none"; }
         });
 
@@ -1216,7 +1447,7 @@
             if (this.value) {
                 document.getElementById("step3").style.display = "block";
                 document.getElementById("destinationTitle").innerHTML = '<div class="step-number">3</div> اختار خط الوصول';
-                document.getElementById("step3").scrollIntoView({ behavior: "smooth" });
+                document.getElementById("step3").scrollIntoView({ behavior: "smooth", block: "center" });
             } else {
                 document.getElementById("step3").style.display = "none";
                 document.getElementById("step4").style.display = "none";
@@ -1227,7 +1458,7 @@
             if (this.value) {
                 populateStationSelect("endStation", this.value);
                 document.getElementById("step4").style.display = "block";
-                document.getElementById("step4").scrollIntoView({ behavior: "smooth" });
+                document.getElementById("step4").scrollIntoView({ behavior: "smooth", block: "center" });
             } else { document.getElementById("step4").style.display = "none"; }
         });
     </script>
