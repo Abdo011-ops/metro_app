@@ -57,7 +57,7 @@
             z-index: 1;
         }
 
-        /* العنوان - 3 سطور */
+        /* العنوان */
         .header-title {
             font-size: 42px;
             font-weight: 900;
@@ -83,18 +83,37 @@
             line-height: 1.5;
         }
 
-        /* الكروت - جنب بعض */
+        /* حاوية السلايدر (عشان الأسهم) */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        /* شبكة الكروت (السلايدر) */
         .services-grid {
             display: flex;
             flex-direction: row;
             gap: 12px;
-            justify-content: center;
-            align-items: stretch;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory; /* عشان الكارت يثبت في مكانه بنعومة */
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch; /* لدعم السحب على الآيفون */
+            padding: 15px 5px;
+            width: 100%;
+            /* إخفاء شريط التمرير */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .services-grid::-webkit-scrollbar {
+            display: none;
         }
 
         .service-card {
-            flex: 1;
-            max-width: 200px;
+            /* الحسبة دي بتخلي الكارت ياخد نص الشاشة ناقص مسافة الفراغ، فيظهر كارتين بس */
+            flex: 0 0 calc(50% - 6px);
+            scroll-snap-align: center; /* بيخلي الكارت يقف في النص لما تسحب */
             background: var(--card);
             border: 2px solid var(--border);
             border-radius: 16px;
@@ -124,14 +143,9 @@
             transition: opacity 0.3s;
         }
 
-        .service-card:active {
-            transform: scale(0.95);
-        }
-
+        .service-card:active { transform: scale(0.95); }
         .service-card:hover::before,
-        .service-card:active::before {
-            opacity: 1;
-        }
+        .service-card:active::before { opacity: 1; }
 
         .service-icon {
             font-size: 45px;
@@ -139,10 +153,8 @@
             transition: transform 0.3s;
         }
 
-        .service-card:active .service-icon {
-            transform: scale(1.1);
-        }
-
+        .service-card:active .service-icon { transform: scale(1.1); }
+        
         .service-title {
             font-size: 18px;
             font-weight: 700;
@@ -155,104 +167,54 @@
             line-height: 1.5;
         }
 
-        .service-arrow {
-            margin-top: 10px;
-            font-size: 16px;
-            color: var(--primary);
-            opacity: 0;
-            transform: translateY(-5px);
+        /* أزرار الأسهم يمين وشمال */
+        .scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid var(--primary);
+            color: var(--text);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             transition: all 0.3s;
         }
-
-        .service-card:active .service-arrow {
-            opacity: 1;
-            transform: translateY(0);
+        .scroll-btn:hover, .scroll-btn:active {
+            background: var(--primary);
+            color: white;
         }
+        
+        /* تظبيط أماكن الأسهم */
+        .right-btn { right: -10px; }
+        .left-btn { left: -10px; }
 
-        /* للشاشات الكبيرة */
         @media (min-width: 600px) {
-            .container {
-                max-width: 550px;
-            }
-
-            .header-title {
-                font-size: 50px;
-            }
-
-            .header-title-2 {
-                font-size: 32px;
-            }
-
-            .header-subtitle {
-                font-size: 16px;
-            }
-
-            .services-grid {
-                gap: 20px;
-            }
-
-            .service-card {
-                max-width: 220px;
-                padding: 30px 20px;
-                border-radius: 20px;
-            }
-
-            .service-card:hover {
-                transform: translateY(-8px);
-                border-color: var(--primary);
-                box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
-            }
-
-            .service-icon {
-                font-size: 60px;
-            }
-
-            .service-title {
-                font-size: 22px;
-            }
-
-            .service-desc {
-                font-size: 13px;
-            }
+            .container { max-width: 600px; }
+            .header-title { font-size: 50px; }
+            .header-title-2 { font-size: 32px; }
+            .service-card { padding: 30px 20px; border-radius: 20px; }
+            .service-icon { font-size: 60px; }
+            .service-title { font-size: 22px; }
+            .service-desc { font-size: 13px; }
+            .right-btn { right: -25px; width: 45px; height: 45px; }
+            .left-btn { left: -25px; width: 45px; height: 45px; }
         }
 
-        /* للشاشات الصغيرة جداً */
         @media (max-width: 350px) {
-            .header-title {
-                font-size: 32px;
-            }
-
-            .header-title-2 {
-                font-size: 22px;
-            }
-
-            .header-subtitle {
-                font-size: 12px;
-                margin-bottom: 20px;
-            }
-
-            .services-grid {
-                gap: 8px;
-            }
-
-            .service-card {
-                padding: 15px 8px;
-            }
-
-            .service-icon {
-                font-size: 35px;
-            }
-
-            .service-title {
-                font-size: 15px;
-            }
-
-            .service-desc {
-                font-size: 10px;
-            }
+            .header-title { font-size: 32px; }
+            .header-title-2 { font-size: 22px; }
+            .service-icon { font-size: 35px; }
+            .service-title { font-size: 15px; }
+            .scroll-btn { width: 30px; height: 30px; }
         }
 
-        /* دعم الوضع الليلي */
         @media (prefers-color-scheme: light) {
             :root {
                 --bg: #f8fafc;
@@ -261,43 +223,74 @@
                 --muted: #64748b;
                 --border: #e2e8f0;
             }
-
-            body {
-                background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
-            }
+            body { background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); }
+            .scroll-btn { background: white; color: var(--primary); }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- العنوان 3 سطور -->
         <h1 class="header-title">معاك</h1>
         <h2 class="header-title-2">في أي طريق</h2>
         <p class="header-subtitle">اختار الخدمة اللي بتدور عليها وهنوصلك في أسرع وقت</p>
 
-        <div class="services-grid">
-            <!-- كارت المترو -->
-            <a href="metro.html" class="service-card">
-                <div class="service-icon">🚇</div>
-                <h3 class="service-title">دليل المترو</h3>
-                <p class="service-desc">اعرف محطتك واحسب تذكرتك</p>
-                <div class="service-arrow">
-                    <i class="fas fa-arrow-left"></i>
-                </div>
-            </a>
+        <!-- حاوية السلايدر والأسهم -->
+        <div class="carousel-wrapper">
+            
+            <!-- زر اليمين -->
+            <div class="scroll-btn right-btn" onclick="scrollCards(1)">
+                <i class="fas fa-chevron-right"></i>
+            </div>
 
-            <!-- كارت المواصلات -->
-            <a href="transport.html" class="service-card">
-                <div class="service-icon">🚌</div>
-                <h3 class="service-title">مواصلاتي</h3>
-                <p class="service-desc">دليلك لمواقف السفر</p>
-                <div class="service-arrow">
-                    <i class="fas fa-arrow-left"></i>
-                </div>
-            </a>
+            <!-- الكروت -->
+            <div class="services-grid" id="cardsContainer">
+                
+                <!-- 1. كارت المترو -->
+                <a href="metro.html" class="service-card">
+                    <div class="service-icon">🚇</div>
+                    <h3 class="service-title">دليل المترو</h3>
+                    <p class="service-desc">اعرف محطتك واحسب تذكرتك</p>
+                </a>
+
+                <!-- 2. كارت المواصلات -->
+                <a href="transport.html" class="service-card">
+                    <div class="service-icon">🚌</div>
+                    <h3 class="service-title">مواصلاتي</h3>
+                    <p class="service-desc">دليلك لمواقف السفر</p>
+                </a>
+
+                <!-- 3. كارت قطار العاصمة -->
+                <a href="capital-train.html" class="service-card">
+                    <div class="service-icon">🚈</div>
+                    <h3 class="service-title">قطار العاصمة</h3>
+                    <p class="service-desc">محطات القطار الكهربائي (LRT)</p>
+                </a>
+
+            </div>
+
+            <!-- زر الشمال -->
+            <div class="scroll-btn left-btn" onclick="scrollCards(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+
         </div>
     </div>
 
+    <!-- كود الجافا سكريبت لتشغيل الأسهم -->
+    <script>
+        function scrollCards(direction) {
+            const container = document.getElementById('cardsContainer');
+            // بنحسب عرض الكارت الواحد عشان نعمل سكرول بمقدار كارت كارت
+            const cardWidth = container.querySelector('.service-card').offsetWidth + 12; 
+            
+            // في اللغة العربية (RTL) الاتجاهات بتكون معكوسة
+            if (direction === 1) {
+                container.scrollBy({ left: cardWidth, behavior: 'smooth' }); // يمين
+            } else {
+                container.scrollBy({ left: -cardWidth, behavior: 'smooth' }); // شمال
+            }
+        }
+    </script>
 </body>
 </html>
