@@ -202,7 +202,6 @@
         .route-stat-label { font-size: 9px; color: var(--muted); margin-top: 3px; }
         .route-stat.time .route-stat-value { color: var(--warning); }
         .route-stat.price .route-stat-value { color: var(--price); }
-<<<<<<< HEAD
         
         .routes-info-box {
             margin: 15px 0;
@@ -261,18 +260,6 @@
         .journey-path::before { content: ''; position: absolute; right: 12px; top: 0; bottom: 0; width: 2px; background: var(--border); }
         .station-stop { position: relative; margin-bottom: 10px; padding: 10px; background: var(--bg); border-radius: 10px; border: 1px solid var(--border); }
         .station-stop::before { content: ''; position: absolute; right: -24px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: var(--primary); border-radius: 50%; border: 2px solid var(--card); }
-=======
-        .stations-list { margin: 20px 0; padding: 20px; background: var(--bg); border-radius: 15px; }
-        .stations-list-title { font-weight: 700; margin-bottom: 15px; color: var(--primary); }
-        .stations-text { line-height: 2.5; font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-        .station-highlight { color: var(--text); font-weight: 700; background: var(--card); padding: 5px 10px; border-radius: 8px; border: 1px solid var(--border); }
-        .transfer-highlight { color: var(--multi); font-weight: 800; background: rgba(139, 92, 246, 0.1); padding: 5px 10px; border-radius: 8px; border: 2px solid var(--multi); }
-        .arrow-separator { color: var(--muted); font-size: 12px; }
-        .journey-path { position: relative; padding-right: 40px; margin-top: 20px; }
-        .journey-path::before { content: ''; position: absolute; right: 15px; top: 0; bottom: 0; width: 3px; background: var(--border); }
-        .station-stop { position: relative; margin-bottom: 15px; padding: 15px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
-        .station-stop::before { content: ''; position: absolute; right: -32px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background: var(--primary); border-radius: 50%; border: 3px solid var(--card); }
->>>>>>> 70117111d6ba675ce70d1561dffc472f90eb5cd2
         .station-stop.transfer::before { background: var(--multi); }
         .station-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
         .station-name { font-weight: 700; font-size: 13px; }
@@ -833,19 +820,12 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
                 
                 <div class="routes-info-box" id="routesInfoBox">
                     <div class="routes-info-title"><i class="fas fa-route"></i> المسارات التي سأمر عليها:</div>
                     <div class="directions-row" id="directionsRow"></div>
                 </div>
                 
-=======
-                <div class="stations-list">
-                    <div class="stations-list-title"><i class="fas fa-list"></i> المحطات التي ستمر بها:</div>
-                    <div class="stations-text" id="stationsText"></div>
-                </div>
->>>>>>> 70117111d6ba675ce70d1561dffc472f90eb5cd2
                 <div class="journey-path" id="journeyPath"></div>
                 <button class="btn btn-primary" onclick="resetJourney()" style="margin-top: 15px;">
                     <i class="fas fa-redo"></i> رحلة جديدة
@@ -1242,7 +1222,6 @@
                     for (let i = si; i !== ei + step; i += step) {
                         path.push({ name: stations[i], line: commonLine, isTransfer: transferStations[stations[i]] ? true : false });
                     }
-<<<<<<< HEAD
                     const direction = si < ei ? stations[stations.length - 1] : stations[0];
                     return { 
                         path, 
@@ -1254,9 +1233,6 @@
                             fromStation: startStation
                         }]
                     };
-=======
-                    return { path, transfers: [], lines: [commonLine] };
->>>>>>> 70117111d6ba675ce70d1561dffc472f90eb5cd2
                 }
             }
             
@@ -1288,7 +1264,23 @@
                     path.push({ name: secondStations[i], line: secondLine, isTransfer: transferStations[secondStations[i]] ? true : false });
                 }
                 
-                const route = { path, transfers: [transferStation], lines: [firstLine, secondLine] };
+                const route = { 
+                    path, 
+                    transfers: [transferStation], 
+                    lines: [firstLine, secondLine],
+                    directions: [
+                        {
+                            line: firstLine,
+                            direction: startIdx < transferIdx ? firstStations[firstStations.length - 1] : firstStations[0],
+                            fromStation: startStation
+                        },
+                        {
+                            line: secondLine,
+                            direction: transferIdx2 < endIdx ? secondStations[secondStations.length - 1] : secondStations[0],
+                            fromStation: transferStation
+                        }
+                    ]
+                };
                 if (!bestRoute || path.length < bestRoute.path.length) bestRoute = route;
             }
             return bestRoute;
@@ -1330,7 +1322,6 @@
             document.getElementById("totalPrice").textContent = calculatePrice(route.path.length);
             
             displayJourneyPath(route);
-<<<<<<< HEAD
             displayDirectionsRow(route);
         }
 
@@ -1360,8 +1351,6 @@
             } else {
                 directionsRow.innerHTML = "";
             }
-=======
->>>>>>> 70117111d6ba675ce70d1561dffc472f90eb5cd2
         }
 
         function displayJourneyPath(route) {
