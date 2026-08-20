@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>قطار العاصمة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --primary: #6366f1; --success: #10b981; --border: #334155; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+        
+        .main-card { background: var(--card); border-radius: 20px; padding: 25px; width: 100%; max-width: 450px; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.3); transition: 0.3s; }
+        .input-group { margin-bottom: 20px; }
+        select { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-family: 'Cairo'; font-size: 16px; }
+        
+        .btn-calc { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 18px; cursor: pointer; }
+        
+        /* شاشة النتيجة */
+        #resultScreen { display: none; text-align: center; }
+        .price-big { font-size: 48px; font-weight: 900; color: var(--success); margin: 10px 0; }
+        .info-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 10px 0; border-bottom: 1px solid var(--border); color: var(--muted); }
+        .btn-retry { margin-top: 20px; background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="main-card" id="inputScreen">
+        <div class="input-group">
+            <select id="startStation"><option value="" disabled selected>من أين تريد أن تبدأ؟</option></select>
+        </div>
+        <div class="input-group">
+            <select id="endStation"><option value="" disabled selected>إلى أين تريد الذهاب؟</option></select>
+        </div>
+        <button class="btn-calc" onclick="showResult()">احسب التذكرة</button>
+    </div>
+
+    <div class="main-card" id="resultScreen">
+        <h2 style="margin-bottom: 20px;">تفاصيل الرحلة</h2>
+        <div class="price-big"><span id="priceText">0</span> ج.م</div>
+        
+        <div class="info-row"><span>عدد المحطات:</span> <span id="stationsText" style="color: white;">0</span></div>
+        <div class="info-row"><span>الوقت المتوقع:</span> <span style="color: white;">25 دقيقة</span></div>
+        
+        <button class="btn-retry" onclick="resetApp()">محاولة أخرى</button>
+    </div>
+
+    <script>
+        const stations = ["عدلي منصور", "العبور", "المستقبل", "الشروق", "هليوبوليس الجديدة", "بدر", "الروبيكي", "حدائق العاصمة", "مطار العاصمة", "مدينة الفنون والثقافة"];
+        
+        // تعبئة القوائم
+        stations.forEach(s => {
+            let label = s === "عدلي منصور" ? "عدلي منصور (تبادلية)" : s;
+            document.getElementById('startStation').add(new Option(label, s));
+            document.getElementById('endStation').add(new Option(label, s));
+        });
+
+        function showResult() {
+            const start = document.getElementById('startStation').value;
+            const end = document.getElementById('endStation').value;
+            if(!start || !end) return alert("اختر المحطات");
+
+            const count = Math.abs(stations.indexOf(start) - stations.indexOf(end));
+            document.getElementById('priceText').innerText = count * 5 + 5; // حسبة تجريبية
+            document.getElementById('stationsText').innerText = count;
+
+            document.getElementById('inputScreen').style.display = 'none';
+            document.getElementById('resultScreen').style.display = 'block';
+        }
+
+        function resetApp() {
+            document.getElementById('inputScreen').style.display = 'block';
+            document.getElementById('resultScreen').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
