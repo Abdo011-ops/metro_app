@@ -189,7 +189,7 @@
     display: flex;
     justify-content: center;
     gap: 20px; /* دي المسافة اللي بين الدايرتين */
-    margin-top: 20px; /* المسافة بين الأزرار والكروت اللي فوقهم */
+    margin-top: 5px; /* المسافة بين الأزرار والكروت اللي فوقهم */
 }
 
 /* التصميم الأساسي للدايرتين (المقاس والشكل) */
@@ -212,6 +212,12 @@
     transform: scale(0.9); 
 }
 
+.contact-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 5px;
+}
 /* لون واتساب */
 .whatsapp-circle {
     background-color: #25D366;
@@ -266,30 +272,23 @@
                 </div>
 
             </div>
-          
-  <!-- أزرار التواصل (واتساب وجيميل) -->
-<div class="contact-buttons">
-    <!-- زرار واتساب -->
-    <a href="https://wa.me/201153297929" class="circle-btn whatsapp-circle" target="_blank">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-    
-   <!-- زرار جيميل -->
-    <a href="mailto:abdulrahman.ruby.01153@gmail.com" class="circle-btn gmail-circle" target="_blank">
-        <i class="fa-solid fa-envelope"></i>
-    </a>
-</div>
-</div>
-       
-   
-</div>
-            <!-- النقط السفلية -->
+            
+            <!-- النقط السفلية جوه السلايدر عشان تشتغل صح -->
             <div class="swiper-pagination"></div>
         </div>
-    </div>
 
-
-    
+        <!-- أزرار التواصل (واتساب وجيميل) -->
+        <div class="contact-buttons">
+            <!-- زرار واتساب -->
+            <a href="https://wa.me/201153297929" class="circle-btn whatsapp-circle" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            
+            <!-- زرار جيميل -->
+            <a href="mailto:abdulrahman.ruby.01153@gmail.com" class="circle-btn gmail-circle" target="_blank">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+        </div>
     <!-- ملفات الجافاسكريبت بتاعة السلاسة (Swiper JS) -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
