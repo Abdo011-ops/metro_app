@@ -184,7 +184,44 @@
             .service-desc { font-size: 12px; }
             .logo-image { width: 120px; height: 120px; }
         }
-    </style>
+ /* حاوية الأزرار عشان تخليهم جنب بعض وفي النص */
+.contact-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* دي المسافة اللي بين الدايرتين */
+    margin-top: 20px; /* المسافة بين الأزرار والكروت اللي فوقهم */
+}
+
+/* التصميم الأساسي للدايرتين (المقاس والشكل) */
+.circle-btn {
+    width: 55px; /* العرض - تقدر تكبره أو تصغره من هنا */
+    height: 55px; /* الطول - لازم يكون نفس العرض عشان تطلع دايرة مظبوطة */
+    border-radius: 50%; /* السطر ده هو اللي بيخليها دايرة */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px; /* حجم الأيقونة نفسها من جوه */
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+/* حركة الضغطة */
+.circle-btn:active {
+    transform: scale(0.9); 
+}
+
+/* لون واتساب */
+.whatsapp-circle {
+    background-color: #25D366;
+}
+
+/* لون جيميل */
+.gmail-circle {
+    background-color: #EA4335;
+}
+ </style>
 </head>
 <body>
 
@@ -229,17 +266,30 @@
                 </div>
 
             </div>
-            
+          
+  <!-- أزرار التواصل (واتساب وجيميل) -->
+<div class="contact-buttons">
+    <!-- زرار واتساب -->
+    <a href="https://wa.me/201153297929" class="circle-btn whatsapp-circle" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    
+   <!-- زرار جيميل -->
+    <a href="mailto:abdulrahman.ruby.01153@gmail.com" class="circle-btn gmail-circle" target="_blank">
+        <i class="fa-solid fa-envelope"></i>
+    </a>
+</div>
+</div>
+       
+   
+</div>
             <!-- النقط السفلية -->
             <div class="swiper-pagination"></div>
         </div>
     </div>
 
-    <!-- عنصر الصوت -->
-    <audio id="welcomeAudio" preload="auto">
-        <source src="welcome.mp3" type="audio/mpeg">
-    </audio>
 
+    
     <!-- ملفات الجافاسكريبت بتاعة السلاسة (Swiper JS) -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
