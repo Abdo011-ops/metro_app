@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <!-- الصفحة الرئيسية -->
+  <url>
+    <loc>https://maak-ar.web.app/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- صفحة دليل المترو -->
+  <url>
+    <loc>https://maak-ar.web.app/metro.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- صفحة مواصلاتي -->
+  <url>
+    <loc>https://maak-ar.web.app/transport.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- صفحة قطار العاصمة -->
+  <url>
+    <loc>https://maak-ar.web.app/capital-train.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>
