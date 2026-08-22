@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | الصفحة غير موجودة</title>
+    
+    <!-- أيقونة الموقع -->
+    <link rel="icon" type="image/jpeg" href="icon.jpeg">
+    
+    <!-- الخطوط -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --primary: #6366f1;
+            --hover: #8b5cf6;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --info: #06b6d4;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: var(--text);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* خلفية متحركة */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            padding: 20px 0;
+        }
+
+        /* ===== اللوجو الدائري - نفس شكل index.html ===== */
+        .logo-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* رقم 404 الكبير */
+        .error-code {
+            font-size: 150px;
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--danger), var(--warning), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+            margin-bottom: 10px;
+            user-select: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* العنوان */
+        .error-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        .error-title span {
+            color: var(--danger);
+        }
+
+        /* الوصف */
+        .error-desc {
+            font-size: 17px;
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        /* الأزرار */
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn-home {
+            background: linear-gradient(135deg, var(--primary), var(--hover));
+            color: white;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-back {
+            background: transparent;
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .btn-back:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* معلومات إضافية */
+        .info-box {
+            padding: 15px;
+            background: var(--card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .info-box i {
+            color: var(--info);
+            margin-left: 5px;
+        }
+
+        /* للشاشات الصغيرة */
+        @media (max-width: 600px) {
+            .logo-image {
+                width: 90px;
+                height: 90px;
+            }
+            .error-code {
+                font-size: 110px;
+            }
+            .error-title {
+                font-size: 26px;
+            }
+            .error-desc {
+                font-size: 15px;
+            }
+            .buttons {
+                flex-direction: column;
+            }
+            .btn {
+                justify-content: center;
+            }
+        }
+
+        /* للشاشات الأكبر */
+        @media (min-width: 400px) {
+            .logo-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- اللوجو الدائري - نفس شكل index.html -->
+        <img src="icon.jpeg" alt="معاك" class="logo-image">
+
+        <!-- رقم 404 الكبير -->
+        <div class="error-code">404</div>
+
+        <!-- العنوان -->
+        <h1 class="error-title">
+            <span>الصفحة</span> غير موجودة!
+        </h1>
+
+        <!-- الوصف -->
+        <p class="error-desc">
+            إحنا موجودين في كل حتة ومعاك في أي طريق
+            <br>
+            بنعتذر لك، بس إحنا مش متاحين هنا دلوقتي
+            <br>
+            حاول مرة تانية لاحقاً
+        </p>
+
+        <!-- الأزرار -->
+        <div class="buttons">
+            <a href="index.html" class="btn btn-home">
+                <i class="fas fa-home"></i>
+                الرئيسية
+            </a>
+            <a href="javascript:history.back()" class="btn btn-back">
+                <i class="fas fa-arrow-right"></i>
+                ارجع للي فات
+            </a>
+        </div>
+
+        <!-- معلومات إضافية -->
+        <div class="info-box">
+            <i class="fas fa-info-circle"></i>
+            لو إنت متأكد إن الرابط صح، جرب تعمل تحديث للصفحة أو ارجع بعد شوية.
+        </div>
+    </div>
+
+</body>
+</html>
