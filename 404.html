@@ -75,7 +75,7 @@
             padding: 20px 0;
         }
 
-        /* ===== اللوجو الدائري - نفس شكل index.html ===== */
+        /* ===== اللوجو الدائري ===== */
         .logo-image {
             width: 100px;
             height: 100px;
@@ -233,7 +233,7 @@
 <body>
 
     <div class="container">
-        <!-- اللوجو الدائري - نفس شكل index.html -->
+        <!-- اللوجو الدائري -->
         <img src="icon.jpeg" alt="معاك" class="logo-image">
 
         <!-- رقم 404 الكبير -->
@@ -270,32 +270,30 @@
             <i class="fas fa-info-circle"></i>
             لو إنت متأكد إن الرابط صح، جرب تعمل تحديث للصفحة أو ارجع بعد شوية.
         </div>
-    </div>c:\Users\abdul_npd60sy\Downloads\google4ea603f88383a78b (2).html
+    </div>
 
+    <!-- Firebase SDK -->
     <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSAQPS5r2hi7PC7U0dp40s8--tIYKeX_o",
+            authDomain: "maak-ar.firebaseapp.com",
+            databaseURL: "https://maak-ar-default-rtdb.firebaseio.com",
+            projectId: "maak-ar",
+            storageBucket: "maak-ar.firebasestorage.app",
+            messagingSenderId: "290990040235",
+            appId: "1:290990040235:web:8e6af5a22ecebc652d43ee",
+            measurementId: "G-CJ1G96MPH9"
+        };
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBSAQPS5r2hi7PC7U0dp40s8--tIYKeX_o",
-    authDomain: "maak-ar.firebaseapp.com",
-    databaseURL: "https://maak-ar-default-rtdb.firebaseio.com",
-    projectId: "maak-ar",
-    storageBucket: "maak-ar.firebasestorage.app",
-    messagingSenderId: "290990040235",
-    appId: "1:290990040235:web:8e6af5a22ecebc652d43ee",
-    measurementId: "G-CJ1G96MPH9"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
 
 </body>
 </html>
